@@ -32,15 +32,22 @@ func NewUserHandler(userService services.UserService) *userHandler {
 func (u *userHandler) RegisterUser(ctx *gin.Context) {
 	var requestBody dto.NewUserRequest
 
-	if err := ctx.ShouldBindJSON(&requestBody); err != nil {
+	err := ctx.ShouldBindJSON(&requestBody)
+	if err != nil {
 		newError := errs.NewUnprocessableEntity(err.Error())
 		ctx.JSON(newError.StatusCode(), newError)
 		return
 	}
 
-	createdUser, err := u.userService.RegisterUser(&requestBody)
-	if err != nil {
-		ctx.JSON(err.StatusCode(), err)
+	err2 := requestBody.ValidateStruct()
+	if err2 != nil {
+		ctx.JSON(err2.StatusCode(), err2)
+		return
+	}
+
+	createdUser, err3 := u.userService.RegisterUser(&requestBody)
+	if err3 != nil {
+		ctx.JSON(err3.StatusCode(), err3)
 		return
 	}
 
