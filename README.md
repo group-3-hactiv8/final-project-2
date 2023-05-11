@@ -3,10 +3,10 @@ MyGram
 
 ## Endpoints
 Users
-1. POST - http://localhost:8080/users - Register a user
+1. POST - http://localhost:8080/users/register - Register a user
 2. POST - http://localhost:8080/users/login - Login
 3. PUT - http://localhost:8080/users/{userId} - Update a user
-4. DELETE - http://localhost:8080/users/{userId} - Delete a user
+4. DELETE - http://localhost:8080/users/ - Delete a user
 
 Photos
 1. POST - http://localhost:8080/photos - Create a photo
@@ -25,7 +25,6 @@ Social Medias
 2. GET - http://localhost:8080/socialmedias - Get all socialmedias
 3. PUT - http://localhost:8080/socialmedias/{socialmediaId} - Update a socialmedia
 4. DELETE - http://localhost:8080/socialmedias/{socialmediaId} - Delete a socialmedia
-
 
 ## Group 3
 1. Prinata Rakha Santoso - GLNG-KS06-005
