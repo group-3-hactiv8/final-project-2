@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"final-project-2/database"
+	"final-project-2/middlewares"
+
 	// _ "final-project-2/docs"
 	"final-project-2/handlers/http_handlers"
 	"final-project-2/repositories/user_repository/user_pg"
@@ -34,8 +36,8 @@ func StartApp() *gin.Engine {
 	{
 		usersRouter.POST("/register", userHandler.RegisterUser)
 		usersRouter.POST("/login", userHandler.LoginUser)
-		usersRouter.PUT("/:id", userHandler.UpdateUser)
-		usersRouter.DELETE("/:id", userHandler.DeleteUser)
+		usersRouter.PUT("/:id", middlewares.Authentication(), userHandler.UpdateUser)
+		usersRouter.DELETE("/:id", middlewares.Authentication(), userHandler.DeleteUser)
 	}
 
 	// userRepo := user_pg.NewUserPG(db)

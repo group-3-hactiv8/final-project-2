@@ -43,7 +43,25 @@ func (u *userPG) LoginUser(user *models.User) errs.MessageErr {
 }
 
 func (u *userPG) UpdateUser(user *models.User) (*models.User, errs.MessageErr) {
-	return nil, nil
+	initialUser := &models.User{}
+	err := u.db.Where("id = ?", user.ID).Take(&initialUser).Error
+
+	if err != nil {
+		message := fmt.Sprintf("User with ID %v not found", user.ID)
+		err2 := errs.NewBadRequest(message)
+		return nil, err2
+	}
+
+	err = u.db.Model(user).Updates(user).Error
+
+	if err != nil {
+		err2 := errs.NewBadRequest(err.Error())
+		return nil, err2
+	}
+
+	user.Age = initialUser.Age
+
+	return user, nil
 }
 
 func (u *userPG) DeleteUser(id uint) errs.MessageErr {

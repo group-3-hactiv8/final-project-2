@@ -5,6 +5,7 @@ import (
 	"final-project-2/pkg/errs"
 	"final-project-2/services"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -70,17 +71,46 @@ func (u *userHandler) LoginUser(ctx *gin.Context) {
 		return
 	}
 
-	token, err3 := u.userService.LoginUser(&requestBody)
+	tokenResponse, err3 := u.userService.LoginUser(&requestBody)
 
 	if err3 != nil {
 		ctx.JSON(err3.StatusCode(), err3)
 		return
 	}
 
-	ctx.JSON(http.StatusOK, token)
+	ctx.JSON(http.StatusOK, tokenResponse)
 }
 
 func (u *userHandler) UpdateUser(ctx *gin.Context) {
+	// ambil user id dari path variable
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	var requestBody dto.UpdateUserRequest
+
+	err = ctx.ShouldBindJSON(&requestBody)
+	if err != nil {
+		newError := errs.NewUnprocessableEntity(err.Error())
+		ctx.JSON(newError.StatusCode(), newError)
+		return
+	}
+
+	err2 := requestBody.ValidateStruct()
+	if err2 != nil {
+		ctx.JSON(err2.StatusCode(), err2)
+		return
+	}
+
+	updatedUserResponse, err3 := u.userService.UpdateUser(id, &requestBody)
+
+	if err3 != nil {
+		ctx.JSON(err3.StatusCode(), err3)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, updatedUserResponse)
 
 }
 

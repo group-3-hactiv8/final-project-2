@@ -10,8 +10,8 @@ import (
 type UserService interface {
 	RegisterUser(payload *dto.NewUserRequest) (*dto.NewUserResponse, errs.MessageErr)
 	LoginUser(payload *dto.LoginUserRequest) (*dto.LoginUserResponse, errs.MessageErr)
-	UpdateUser(payload *dto.UpdateUserRequest) (*dto.UpdateUserResponse, errs.MessageErr)
-	DeleteUser(id uint) (*dto.DeleteUserResponse, errs.MessageErr)
+	UpdateUser(id int, payload *dto.UpdateUserRequest) (*dto.UpdateUserResponse, errs.MessageErr)
+	DeleteUser(id int) (*dto.DeleteUserResponse, errs.MessageErr)
 }
 
 type userService struct {
@@ -68,10 +68,31 @@ func (u *userService) LoginUser(payload *dto.LoginUserRequest) (*dto.LoginUserRe
 	return response, nil
 }
 
-func (u *userService) UpdateUser(payload *dto.UpdateUserRequest) (*dto.UpdateUserResponse, errs.MessageErr) {
-	return nil, nil
+func (u *userService) UpdateUser(id int, payload *dto.UpdateUserRequest) (*dto.UpdateUserResponse, errs.MessageErr) {
+	userUpdateRequest := payload.UpdateUserRequestToModel()
+	if id < 1 {
+		idError := errs.NewBadRequest("Invalid id")
+		return nil, idError
+	}
+
+	userUpdateRequest.ID = uint(id)
+
+	updatedUser, err := u.userRepo.UpdateUser(userUpdateRequest)
+	if err != nil {
+		return nil, err
+	}
+
+	response := &dto.UpdateUserResponse{
+		Username:  updatedUser.Username,
+		Email:     updatedUser.Email,
+		ID:        updatedUser.ID,
+		Age:       updatedUser.Age,
+		UpdatedAt: updatedUser.UpdatedAt,
+	}
+
+	return response, nil
 }
 
-func (u *userService) DeleteUser(id uint) (*dto.DeleteUserResponse, errs.MessageErr) {
+func (u *userService) DeleteUser(id int) (*dto.DeleteUserResponse, errs.MessageErr) {
 	return nil, nil
 }

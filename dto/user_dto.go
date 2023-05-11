@@ -3,6 +3,7 @@ package dto
 import (
 	"final-project-2/models"
 	"final-project-2/pkg/errs"
+	"time"
 
 	"github.com/asaskevich/govalidator"
 )
@@ -78,9 +79,33 @@ type LoginUserResponse struct {
 }
 
 type UpdateUserRequest struct {
+	Username string `json:"username" valid:"required~Your username is required"`
+	Email    string `json:"email" valid:"required~Your email is required, email~Invalid email format"`
+}
+
+func (u *UpdateUserRequest) ValidateStruct() errs.MessageErr {
+	_, err := govalidator.ValidateStruct(u)
+
+	if err != nil {
+		return errs.NewBadRequest(err.Error())
+	}
+
+	return nil
+}
+
+func (u *UpdateUserRequest) UpdateUserRequestToModel() *models.User {
+	return &models.User{
+		Username: u.Username,
+		Email:    u.Email,
+	}
 }
 
 type UpdateUserResponse struct {
+	Username  string    `json:"username"`
+	Email     string    `json:"email"`
+	ID        uint      `json:"id"`
+	Age       int       `json:"age"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 type DeleteUserResponse struct {
