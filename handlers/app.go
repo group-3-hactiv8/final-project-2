@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"final-project-2/database"
-	_ "final-project-2/docs"
+	// _ "final-project-2/docs"
 	"final-project-2/handlers/http_handlers"
 	"final-project-2/repositories/user_repository/user_pg"
 	"final-project-2/services"
@@ -21,6 +21,7 @@ import (
 // @host localhost:8080
 // @BasePath /
 func StartApp() *gin.Engine {
+	database.StartDB()
 	db := database.GetPostgresInstance()
 
 	router := gin.Default()
@@ -31,7 +32,7 @@ func StartApp() *gin.Engine {
 
 	usersRouter := router.Group("/users")
 	{
-		usersRouter.POST("/", userHandler.RegisterUser)
+		usersRouter.POST("/register", userHandler.RegisterUser)
 		usersRouter.POST("/", userHandler.LoginUser)
 		usersRouter.PUT("/:id", userHandler.UpdateUser)
 		usersRouter.DELETE("/:id", userHandler.DeleteUser)
@@ -41,37 +42,37 @@ func StartApp() *gin.Engine {
 	// userService := service.NewUserService(userRepo)
 	// userHandler := http_handler.NewUserHandler(userService)
 
-	photosRouter := router.Group("/photos")
-	{
-		photosRouter.POST("/", photoHandler.CreatePhoto)
-		photosRouter.GET("/", photoHandler.GetAllPhotos)
-		photosRouter.PUT("/:id", photoHandler.UpdatePhoto)
-		photosRouter.DELETE("/:id", photoHandler.DeletePhoto)
-	}
+	// photosRouter := router.Group("/photos")
+	// {
+	// 	photosRouter.POST("/", photoHandler.CreatePhoto)
+	// 	photosRouter.GET("/", photoHandler.GetAllPhotos)
+	// 	photosRouter.PUT("/:id", photoHandler.UpdatePhoto)
+	// 	photosRouter.DELETE("/:id", photoHandler.DeletePhoto)
+	// }
 
 	// userRepo := user_pg.NewUserPG(db)
 	// userService := service.NewUserService(userRepo)
 	// userHandler := http_handler.NewUserHandler(userService)
 
-	commentsRouter := router.Group("/comments")
-	{
-		commentsRouter.POST("/", commentHandler.CreateComment)
-		commentsRouter.GET("/", commentHandler.GetAllComments)
-		commentsRouter.PUT("/:id", commentHandler.UpdateComment)
-		commentsRouter.DELETE("/:id", commentHandler.DeleteComment)
-	}
+	// commentsRouter := router.Group("/comments")
+	// {
+	// 	commentsRouter.POST("/", commentHandler.CreateComment)
+	// 	commentsRouter.GET("/", commentHandler.GetAllComments)
+	// 	commentsRouter.PUT("/:id", commentHandler.UpdateComment)
+	// 	commentsRouter.DELETE("/:id", commentHandler.DeleteComment)
+	// }
 
 	// userRepo := user_pg.NewUserPG(db)
 	// userService := service.NewUserService(userRepo)
 	// userHandler := http_handler.NewUserHandler(userService)
 
-	socialMediasRouter := router.Group("/socialMedias")
-	{
-		socialMediasRouter.POST("/", socialMediaHandler.CreateSocialMedia)
-		socialMediasRouter.GET("/", socialMediaHandler.GetAllSocialMedias)
-		socialMediasRouter.PUT("/:id", socialMediaHandler.UpdateSocialMedia)
-		socialMediasRouter.DELETE("/:id", socialMediaHandler.DeleteSocialMedia)
-	}
+	// socialMediasRouter := router.Group("/socialMedias")
+	// {
+	// 	socialMediasRouter.POST("/", socialMediaHandler.CreateSocialMedia)
+	// 	socialMediasRouter.GET("/", socialMediaHandler.GetAllSocialMedias)
+	// 	socialMediasRouter.PUT("/:id", socialMediaHandler.UpdateSocialMedia)
+	// 	socialMediasRouter.DELETE("/:id", socialMediaHandler.DeleteSocialMedia)
+	// }
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
