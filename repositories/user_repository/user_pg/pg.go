@@ -30,6 +30,15 @@ func (u *userPG) RegisterUser(newUser *models.User) (*models.User, errs.MessageE
 }
 
 func (u *userPG) LoginUser(user *models.User) errs.MessageErr {
+	err := u.db.Where("username = ?", user.Username).Take(&user).Error
+	// Karna di Take, objek user akan terupdate, termasuk passwordnya.
+	// Makannya kita simpen dulu password dari request nya di service level.
+
+	if err != nil {
+		err2 := errs.NewBadRequest("Wrong username/password")
+		return err2
+	}
+
 	return nil
 }
 

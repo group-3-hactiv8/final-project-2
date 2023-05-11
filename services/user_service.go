@@ -2,6 +2,7 @@ package services
 
 import (
 	"final-project-2/dto"
+	"final-project-2/helpers"
 	"final-project-2/pkg/errs"
 	"final-project-2/repositories/user_repository"
 )
@@ -40,7 +41,31 @@ func (u *userService) RegisterUser(payload *dto.NewUserRequest) (*dto.NewUserRes
 }
 
 func (u *userService) LoginUser(payload *dto.LoginUserRequest) (*dto.LoginUserResponse, errs.MessageErr) {
-	return nil, nil
+	user := payload.LoginUserRequestToModel()
+	passwordFromRequest := user.Password
+
+	err := u.userRepo.LoginUser(user)
+
+	if err != nil {
+		return nil, err
+	}
+
+	isTheSame := helpers.ComparePass([]byte(user.Password), []byte(passwordFromRequest))
+	// harus pake method comparePass ini instead of pake statement Where buat nyari di DB.
+	// karena passwordnya disimpan setelah di hash pada function BeforeCreate.
+
+	if !isTheSame {
+		err := errs.NewBadRequest("Wrong username/password")
+		return nil, err
+	}
+
+	token := helpers.GenerateToken(user.ID, user.Username)
+
+	response := &dto.LoginUserResponse{
+		Token: token,
+	}
+
+	return response, nil
 }
 
 func (u *userService) UpdateUser(payload *dto.UpdateUserRequest) (*dto.UpdateUserResponse, errs.MessageErr) {

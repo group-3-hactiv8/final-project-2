@@ -33,7 +33,7 @@ func StartApp() *gin.Engine {
 	usersRouter := router.Group("/users")
 	{
 		usersRouter.POST("/register", userHandler.RegisterUser)
-		usersRouter.POST("/", userHandler.LoginUser)
+		usersRouter.POST("/login", userHandler.LoginUser)
 		usersRouter.PUT("/:id", userHandler.UpdateUser)
 		usersRouter.DELETE("/:id", userHandler.DeleteUser)
 	}

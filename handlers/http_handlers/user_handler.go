@@ -55,7 +55,29 @@ func (u *userHandler) RegisterUser(ctx *gin.Context) {
 }
 
 func (u *userHandler) LoginUser(ctx *gin.Context) {
+	var requestBody dto.LoginUserRequest
 
+	err := ctx.ShouldBindJSON(&requestBody)
+	if err != nil {
+		newError := errs.NewUnprocessableEntity(err.Error())
+		ctx.JSON(newError.StatusCode(), newError)
+		return
+	}
+
+	err2 := requestBody.ValidateStruct()
+	if err2 != nil {
+		ctx.JSON(err2.StatusCode(), err2)
+		return
+	}
+
+	token, err3 := u.userService.LoginUser(&requestBody)
+
+	if err3 != nil {
+		ctx.JSON(err3.StatusCode(), err3)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, token)
 }
 
 func (u *userHandler) UpdateUser(ctx *gin.Context) {

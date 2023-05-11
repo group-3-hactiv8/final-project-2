@@ -52,9 +52,29 @@ type NewUserResponse struct {
 }
 
 type LoginUserRequest struct {
+	Username string `json:"username" valid:"required~Your username is required"`
+	Password string `json:"password" valid:"required~Your password is required"`
+}
+
+func (u *LoginUserRequest) ValidateStruct() errs.MessageErr {
+	_, err := govalidator.ValidateStruct(u)
+
+	if err != nil {
+		return errs.NewBadRequest(err.Error())
+	}
+
+	return nil
+}
+
+func (u *LoginUserRequest) LoginUserRequestToModel() *models.User {
+	return &models.User{
+		Username: u.Username,
+		Password: u.Password,
+	}
 }
 
 type LoginUserResponse struct {
+	Token string `json:"token"`
 }
 
 type UpdateUserRequest struct {

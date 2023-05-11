@@ -10,10 +10,10 @@ import (
 
 const secretKey = "secret"
 
-func GenerateToken(id uint, email string) string {
+func GenerateToken(id uint, username string) string {
 	claims := jwt.MapClaims{
-		"id":    id,
-		"email": email,
+		"id":       id,
+		"username": username,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
