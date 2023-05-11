@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
@@ -85,7 +86,9 @@ func (u *userHandler) UpdateUser(ctx *gin.Context) {
 	// ambil user id dari path variable
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, err.Error())
+		idError := errs.NewBadRequest("Invalid ID format")
+		ctx.JSON(idError.StatusCode(), idError)
+		return
 	}
 
 	var requestBody dto.UpdateUserRequest
@@ -115,5 +118,18 @@ func (u *userHandler) UpdateUser(ctx *gin.Context) {
 }
 
 func (u *userHandler) DeleteUser(ctx *gin.Context) {
+	// mustget = ambil data dari middleware authentication.
+	// Tp hasil returnnya hanya empty interface, jadi harus
+	// di cast dulu ke jwt.MapClaims.
+	userData := ctx.MustGet("userData").(jwt.MapClaims)
+	userId := uint(userData["id"].(float64))
 
+	response, err2 := u.userService.DeleteUser(userId)
+
+	if err2 != nil {
+		ctx.JSON(err2.StatusCode(), err2)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }

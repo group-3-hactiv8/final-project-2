@@ -52,7 +52,7 @@ func VerifyToken(c *gin.Context) (interface{}, error) {
 		return nil, errResponse
 	}
 
-	// isi dari MapClaims ini adalah id dan email yg digenerate
+	// isi dari MapClaims ini adalah id dan username yg digenerate
 	// di awal pas login.
 	return token.Claims.(jwt.MapClaims), nil
 }

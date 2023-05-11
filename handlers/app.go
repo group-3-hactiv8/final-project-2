@@ -37,7 +37,7 @@ func StartApp() *gin.Engine {
 		usersRouter.POST("/register", userHandler.RegisterUser)
 		usersRouter.POST("/login", userHandler.LoginUser)
 		usersRouter.PUT("/:id", middlewares.Authentication(), userHandler.UpdateUser)
-		usersRouter.DELETE("/:id", middlewares.Authentication(), userHandler.DeleteUser)
+		usersRouter.DELETE("/", middlewares.Authentication(), userHandler.DeleteUser)
 	}
 
 	// userRepo := user_pg.NewUserPG(db)

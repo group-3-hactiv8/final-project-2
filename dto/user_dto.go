@@ -109,4 +109,5 @@ type UpdateUserResponse struct {
 }
 
 type DeleteUserResponse struct {
+	Message string `json:"message"`
 }

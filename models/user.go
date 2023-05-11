@@ -37,12 +37,3 @@ func (user *User) BeforeCreate(tx *gorm.DB) error {
 
 	return nil
 }
-
-// func (user *User) BeforeUpdate(tx *gorm.DB) error {
-// 	_, err := govalidator.ValidateStruct(user)
-
-// 	if err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }

@@ -11,7 +11,7 @@ type UserService interface {
 	RegisterUser(payload *dto.NewUserRequest) (*dto.NewUserResponse, errs.MessageErr)
 	LoginUser(payload *dto.LoginUserRequest) (*dto.LoginUserResponse, errs.MessageErr)
 	UpdateUser(id int, payload *dto.UpdateUserRequest) (*dto.UpdateUserResponse, errs.MessageErr)
-	DeleteUser(id int) (*dto.DeleteUserResponse, errs.MessageErr)
+	DeleteUser(id uint) (*dto.DeleteUserResponse, errs.MessageErr)
 }
 
 type userService struct {
@@ -71,7 +71,7 @@ func (u *userService) LoginUser(payload *dto.LoginUserRequest) (*dto.LoginUserRe
 func (u *userService) UpdateUser(id int, payload *dto.UpdateUserRequest) (*dto.UpdateUserResponse, errs.MessageErr) {
 	userUpdateRequest := payload.UpdateUserRequestToModel()
 	if id < 1 {
-		idError := errs.NewBadRequest("Invalid id")
+		idError := errs.NewBadRequest("ID value must be positive")
 		return nil, idError
 	}
 
@@ -93,6 +93,15 @@ func (u *userService) UpdateUser(id int, payload *dto.UpdateUserRequest) (*dto.U
 	return response, nil
 }
 
-func (u *userService) DeleteUser(id int) (*dto.DeleteUserResponse, errs.MessageErr) {
-	return nil, nil
+func (u *userService) DeleteUser(id uint) (*dto.DeleteUserResponse, errs.MessageErr) {
+	err := u.userRepo.DeleteUser(id)
+	if err != nil {
+		return nil, err
+	}
+
+	response := &dto.DeleteUserResponse{
+		Message: "Your account has been successfully deleted",
+	}
+
+	return response, nil
 }
