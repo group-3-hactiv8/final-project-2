@@ -18,7 +18,7 @@ import (
 
 // @title MyGram API
 // @version 1.0
-// @description This is a sample server for ... .
+// @description This is a server for MyGram Application.
 // @termsOfService http://swagger.io/terms/
 // @contact.name Swagger API Team
 // @host localhost:8080

@@ -26,11 +26,12 @@ func NewSocialMediaHandler(socialMediaService services.SocialMediaService) *soci
 //	@Tags			socialmedias
 //	@Accept			json
 //	@Produce		json
-//	@Param			user	body		dto.NewUserRequest	true	"Create user request body"
-//	@Success		201		{object}	dto.NewUserResponse
+//	@Param			socialmedia	body		dto.NewSocialMediaRequest	true	"Create a social media request body"
+//	@Success		201		{object}	dto.NewSocialMediaResponse
+//	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		500		{object}	errs.MessageErrData
-//	@Router			/users [post]
+//	@Router			/socialmedias [post]
 func (sm *socialMediaHandler) CreateSocialMedia(ctx *gin.Context) {
 	// mustget = ambil data dari middleware authentication.
 	// Tp hasil returnnya hanya empty interface, jadi harus
@@ -63,6 +64,16 @@ func (sm *socialMediaHandler) CreateSocialMedia(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, newSMResponse)
 }
 
+// ViewAllSocialMedia godoc
+//
+//	@Summary		View all social medias
+//	@Description	View all social medias by json
+//	@Tags			socialmedias
+//	@Produce		json
+//	@Success		200		{object}	dto.AllSocialMediasResponse
+//	@Failure		401		{object}	errs.MessageErrData
+//	@Failure		500		{object}	errs.MessageErrData
+//	@Router			/socialmedias [post]
 func (sm *socialMediaHandler) GetAllSocialMedias(ctx *gin.Context) {
 	allSMResponse, err3 := sm.socialMediaService.GetAllSocialMedias()
 
@@ -74,6 +85,20 @@ func (sm *socialMediaHandler) GetAllSocialMedias(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, allSMResponse)
 }
 
+// UpdateSocialMedia godoc
+//
+//	@Summary		Update a Social Media
+//	@Description	Update a Social Media by json
+//	@Tags			socialmedias
+//	@Accept			json
+//	@Produce		json
+//	@Param			socialMedia	body		dto.NewSocialMediaRequest	true	"Update a social media request body"
+//	@Param			socialMediaId		path		uint					true	"Social Media ID request"
+//	@Success		200		{object}	dto.UpdateSocialMediaResponse
+//	@Failure		401		{object}	errs.MessageErrData
+//	@Failure		422		{object}	errs.MessageErrData
+//	@Failure		400		{object}	errs.MessageErrData
+//	@Router			/users/{id} [put]
 func (sm *socialMediaHandler) UpdateSocialMedia(ctx *gin.Context) {
 	// ambil socialmedia id dari path variable
 	id, err := strconv.Atoi(ctx.Param("socialMediaId"))
@@ -108,6 +133,17 @@ func (sm *socialMediaHandler) UpdateSocialMedia(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, updatedSMResponse)
 }
 
+// DeleteSocialMedia godoc
+//
+//	@Summary		Delete a Social Media
+//	@Description	Delete a Social Media by param
+//	@Tags			socialmedias
+//	@Produce		json
+//	@Param			socialMediaId		path		uint					true	"Social Media ID request"
+//	@Success		200		{object}	dto.DeleteSocialMediaResponse
+//	@Failure		401		{object}	errs.MessageErrData
+//	@Failure		400		{object}	errs.MessageErrData
+//	@Router			/users/{id} [delete]
 func (sm *socialMediaHandler) DeleteSocialMedia(ctx *gin.Context) {
 	// ambil socialmedia id dari path variable
 	id, err := strconv.Atoi(ctx.Param("socialMediaId"))
