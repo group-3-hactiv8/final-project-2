@@ -30,7 +30,7 @@ func NewUserHandler(userService services.UserService) *userHandler {
 //	@Success		201		{object}	dto.NewUserResponse
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		500		{object}	errs.MessageErrData
-//	@Router			/users [post]
+//	@Router			/users/register [post]
 func (u *userHandler) RegisterUser(ctx *gin.Context) {
 	var requestBody dto.NewUserRequest
 
@@ -56,6 +56,18 @@ func (u *userHandler) RegisterUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, createdUser)
 }
 
+// LoginUser godoc
+//
+//	@Summary		Login
+//	@Description	Login by json
+//	@Tags			users
+//	@Accept			json
+//	@Produce		json
+//	@Param			user	body		dto.LoginUserRequest	true	"Login user request body"
+//	@Success		200		{object}	dto.NewUserResponse
+//	@Failure		422		{object}	errs.MessageErrData
+//	@Failure		400		{object}	errs.MessageErrData
+//	@Router			/users/login [post]
 func (u *userHandler) LoginUser(ctx *gin.Context) {
 	var requestBody dto.LoginUserRequest
 
@@ -82,6 +94,20 @@ func (u *userHandler) LoginUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, tokenResponse)
 }
 
+// UpdateUser godoc
+//
+//	@Summary		Update a user
+//	@Description	Update a user by json
+//	@Tags			users
+//	@Accept			json
+//	@Produce		json
+//	@Param			user	body		dto.UpdateUserRequest	true	"Update a user request body"
+//	@Param			id		path		uint					true	"User ID request"
+//	@Success		200		{object}	dto.NewUserResponse
+//	@Failure		401		{object}	errs.MessageErrData
+//	@Failure		422		{object}	errs.MessageErrData
+//	@Failure		400		{object}	errs.MessageErrData
+//	@Router			/users/{id} [put]
 func (u *userHandler) UpdateUser(ctx *gin.Context) {
 	// ambil user id dari path variable
 	id, err := strconv.Atoi(ctx.Param("id"))
@@ -117,6 +143,15 @@ func (u *userHandler) UpdateUser(ctx *gin.Context) {
 
 }
 
+// DeleteUser godoc
+//
+//	@Summary		Delete a user
+//	@Description	Delete a user by JWT from header
+//	@Tags			users
+//	@Produce		json
+//	@Success		200		{object}	dto.NewUserResponse
+//	@Failure		401		{object}	errs.MessageErrData
+//	@Router			/users/ [delete]
 func (u *userHandler) DeleteUser(ctx *gin.Context) {
 	// mustget = ambil data dari middleware authentication.
 	// Tp hasil returnnya hanya empty interface, jadi harus

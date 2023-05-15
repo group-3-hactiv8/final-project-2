@@ -6,6 +6,7 @@ import (
 
 	// _ "final-project-2/docs"
 	"final-project-2/handlers/http_handlers"
+	"final-project-2/repositories/social_media_repository/social_media_pg"
 	"final-project-2/repositories/user_repository/user_pg"
 	"final-project-2/services"
 
@@ -17,7 +18,7 @@ import (
 
 // @title MyGram API
 // @version 1.0
-// @description This is a sample server for ... .
+// @description This is a server for MyGram Application.
 // @termsOfService http://swagger.io/terms/
 // @contact.name Swagger API Team
 // @host localhost:8080
@@ -64,17 +65,18 @@ func StartApp() *gin.Engine {
 	// 	commentsRouter.DELETE("/:id", commentHandler.DeleteComment)
 	// }
 
-	// userRepo := user_pg.NewUserPG(db)
-	// userService := service.NewUserService(userRepo)
-	// userHandler := http_handler.NewUserHandler(userService)
+	socialMediaRepo := social_media_pg.NewSocialMediaPG(db)
+	socialMediaService := services.NewSocialMediaService(socialMediaRepo)
+	socialMediaHandler := http_handlers.NewSocialMediaHandler(socialMediaService)
 
-	// socialMediasRouter := router.Group("/socialMedias")
-	// {
-	// 	socialMediasRouter.POST("/", socialMediaHandler.CreateSocialMedia)
-	// 	socialMediasRouter.GET("/", socialMediaHandler.GetAllSocialMedias)
-	// 	socialMediasRouter.PUT("/:id", socialMediaHandler.UpdateSocialMedia)
-	// 	socialMediasRouter.DELETE("/:id", socialMediaHandler.DeleteSocialMedia)
-	// }
+	socialMediasRouter := router.Group("/socialmedias")
+	socialMediasRouter.Use(middlewares.Authentication())
+	{
+		socialMediasRouter.POST("/", socialMediaHandler.CreateSocialMedia)
+		socialMediasRouter.GET("/", socialMediaHandler.GetAllSocialMedias)
+		socialMediasRouter.PUT("/:socialMediaId", middlewares.SocialMediaAuthorization(), socialMediaHandler.UpdateSocialMedia)
+		socialMediasRouter.DELETE("/:socialMediaId", middlewares.SocialMediaAuthorization(), socialMediaHandler.DeleteSocialMedia)
+	}
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
