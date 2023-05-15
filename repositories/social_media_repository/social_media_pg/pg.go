@@ -44,6 +44,7 @@ func (sm *socialMediaPG) GetAllSocialMedias() (*[]models.SocialMedia, uint, errs
 
 	totalCount := result.RowsAffected
 
+	// create new slice for storing the user of social media too
 	var newAllSM []models.SocialMedia = make([]models.SocialMedia, 0, totalCount)
 	var user *models.User
 
