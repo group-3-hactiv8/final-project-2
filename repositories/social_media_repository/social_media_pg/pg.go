@@ -85,6 +85,13 @@ func (sm *socialMediaPG) UpdateSocialMedia(updatedSm *models.SocialMedia) (*mode
 	return updatedSm, nil
 }
 
-func (sm *socialMediaPG) DeleteSocialMedia(id uint, sm_id uint) errs.MessageErr {
+func (sm *socialMediaPG) DeleteSocialMedia(sm_id uint) errs.MessageErr {
+	err := sm.db.Delete(&models.SocialMedia{ID: sm_id}).Error
+
+	if err != nil {
+		err3 := errs.NewInternalServerError(err.Error())
+		return err3
+	}
+
 	return nil
 }

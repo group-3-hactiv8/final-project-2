@@ -98,14 +98,31 @@ func (sm *socialMediaHandler) UpdateSocialMedia(ctx *gin.Context) {
 		return
 	}
 
-	updatedUserResponse, err3 := sm.socialMediaService.UpdateSocialMedia(id, &requestBody)
+	updatedSMResponse, err3 := sm.socialMediaService.UpdateSocialMedia(id, &requestBody)
 
 	if err3 != nil {
 		ctx.JSON(err3.StatusCode(), err3)
 		return
 	}
 
-	ctx.JSON(http.StatusOK, updatedUserResponse)
+	ctx.JSON(http.StatusOK, updatedSMResponse)
 }
 
-func (sm *socialMediaHandler) DeleteSocialMedia(ctx *gin.Context) {}
+func (sm *socialMediaHandler) DeleteSocialMedia(ctx *gin.Context) {
+	// ambil socialmedia id dari path variable
+	id, err := strconv.Atoi(ctx.Param("socialMediaId"))
+	if err != nil {
+		idError := errs.NewBadRequest("Invalid ID format")
+		ctx.JSON(idError.StatusCode(), idError)
+		return
+	}
+
+	deletedSMResponse, err3 := sm.socialMediaService.DeleteSocialMedia(id)
+
+	if err3 != nil {
+		ctx.JSON(err3.StatusCode(), err3)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, deletedSMResponse)
+}

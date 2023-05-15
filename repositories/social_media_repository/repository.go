@@ -9,5 +9,5 @@ type SocialMediaRepository interface {
 	CreateSocialMedia(sm *models.SocialMedia) (*models.SocialMedia, errs.MessageErr)
 	GetAllSocialMedias() (*[]models.SocialMedia, uint, errs.MessageErr)
 	UpdateSocialMedia(sm *models.SocialMedia) (*models.SocialMedia, errs.MessageErr)
-	DeleteSocialMedia(id uint, sm_id uint) errs.MessageErr
+	DeleteSocialMedia(sm_id uint) errs.MessageErr
 }

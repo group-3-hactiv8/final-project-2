@@ -11,7 +11,7 @@ type SocialMediaService interface {
 	CreateSocialMedia(payload *dto.NewSocialMediaRequest, userId uint) (*dto.NewSocialMediaResponse, errs.MessageErr)
 	GetAllSocialMedias() (*dto.AllSocialMediasResponse, errs.MessageErr)
 	UpdateSocialMedia(sm_id int, payload *dto.NewSocialMediaRequest) (*dto.UpdateSocialMediaResponse, errs.MessageErr)
-	DeleteSocialMedia(id int, sm_id uint) (*dto.DeleteSocialMediaResponse, errs.MessageErr)
+	DeleteSocialMedia(sm_id int) (*dto.DeleteSocialMediaResponse, errs.MessageErr)
 }
 
 type socialMediaService struct {
@@ -105,6 +105,21 @@ func (sm *socialMediaService) UpdateSocialMedia(id int, payload *dto.NewSocialMe
 	return response, nil
 }
 
-func (sm *socialMediaService) DeleteSocialMedia(id int, sm_id uint) (*dto.DeleteSocialMediaResponse, errs.MessageErr) {
-	return nil, nil
+func (sm *socialMediaService) DeleteSocialMedia(id int) (*dto.DeleteSocialMediaResponse, errs.MessageErr) {
+	if id < 1 {
+		idError := errs.NewBadRequest("ID value must be positive")
+		return nil, idError
+	}
+	sm_id := uint(id)
+
+	err := sm.socialMediaRepo.DeleteSocialMedia(sm_id)
+	if err != nil {
+		return nil, err
+	}
+
+	response := &dto.DeleteSocialMediaResponse{
+		Message: "Your social media has been successfully deleted",
+	}
+
+	return response, nil
 }
