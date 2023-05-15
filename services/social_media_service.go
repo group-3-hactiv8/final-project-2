@@ -10,8 +10,8 @@ import (
 type SocialMediaService interface {
 	CreateSocialMedia(payload *dto.NewSocialMediaRequest, userId uint) (*dto.NewSocialMediaResponse, errs.MessageErr)
 	GetAllSocialMedias() (*dto.AllSocialMediasResponse, errs.MessageErr)
-	UpdateSocialMedia(payload *dto.NewSocialMediaRequest) (*dto.UpdateSocialMediaResponse, errs.MessageErr)
-	DeleteSocialMedia(id uint, sm_id uint) (*dto.DeleteSocialMediaResponse, errs.MessageErr)
+	UpdateSocialMedia(sm_id int, payload *dto.NewSocialMediaRequest) (*dto.UpdateSocialMediaResponse, errs.MessageErr)
+	DeleteSocialMedia(id int, sm_id uint) (*dto.DeleteSocialMediaResponse, errs.MessageErr)
 }
 
 type socialMediaService struct {
@@ -80,10 +80,31 @@ func (sm *socialMediaService) GetAllSocialMedias() (*dto.AllSocialMediasResponse
 	return response, nil
 }
 
-func (sm *socialMediaService) UpdateSocialMedia(payload *dto.NewSocialMediaRequest) (*dto.UpdateSocialMediaResponse, errs.MessageErr) {
-	return nil, nil
+func (sm *socialMediaService) UpdateSocialMedia(id int, payload *dto.NewSocialMediaRequest) (*dto.UpdateSocialMediaResponse, errs.MessageErr) {
+	socialMediaUpdateRequest := payload.NewSocialMediaRequestToModel()
+	if id < 1 {
+		idError := errs.NewBadRequest("ID value must be positive")
+		return nil, idError
+	}
+	sm_id := uint(id)
+	socialMediaUpdateRequest.ID = sm_id
+
+	updatedSM, err := sm.socialMediaRepo.UpdateSocialMedia(socialMediaUpdateRequest)
+	if err != nil {
+		return nil, err
+	}
+
+	response := &dto.UpdateSocialMediaResponse{
+		ID:             updatedSM.ID,
+		Name:           updatedSM.Name,
+		SocialMediaUrl: updatedSM.SocialMediaUrl,
+		UserId:         updatedSM.UserId,
+		UpdatedAt:      updatedSM.UpdatedAt,
+	}
+
+	return response, nil
 }
 
-func (sm *socialMediaService) DeleteSocialMedia(id uint, sm_id uint) (*dto.DeleteSocialMediaResponse, errs.MessageErr) {
+func (sm *socialMediaService) DeleteSocialMedia(id int, sm_id uint) (*dto.DeleteSocialMediaResponse, errs.MessageErr) {
 	return nil, nil
 }

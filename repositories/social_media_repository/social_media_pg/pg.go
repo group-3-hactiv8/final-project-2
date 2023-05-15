@@ -64,7 +64,25 @@ func (sm *socialMediaPG) GetAllSocialMedias() (*[]models.SocialMedia, uint, errs
 }
 
 func (sm *socialMediaPG) UpdateSocialMedia(updatedSm *models.SocialMedia) (*models.SocialMedia, errs.MessageErr) {
-	return nil, nil
+	initialSocialMedia := &models.SocialMedia{}
+	err := sm.db.Where("id = ?", updatedSm.ID).Take(&initialSocialMedia).Error
+
+	if err != nil {
+		message := fmt.Sprintf("Social Media with ID %v not found", updatedSm.ID)
+		err2 := errs.NewNotFound(message)
+		return nil, err2
+	}
+
+	err = sm.db.Model(updatedSm).Updates(updatedSm).Error
+
+	if err != nil {
+		err2 := errs.NewBadRequest(err.Error())
+		return nil, err2
+	}
+
+	updatedSm.UserId = initialSocialMedia.UserId
+
+	return updatedSm, nil
 }
 
 func (sm *socialMediaPG) DeleteSocialMedia(id uint, sm_id uint) errs.MessageErr {

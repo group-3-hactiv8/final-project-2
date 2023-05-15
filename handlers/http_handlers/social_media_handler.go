@@ -5,6 +5,7 @@ import (
 	"final-project-2/pkg/errs"
 	"final-project-2/services"
 	"net/http"
+	"strconv"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -73,6 +74,38 @@ func (sm *socialMediaHandler) GetAllSocialMedias(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, allSMResponse)
 }
 
-func (sm *socialMediaHandler) UpdateSocialMedia(ctx *gin.Context) {}
+func (sm *socialMediaHandler) UpdateSocialMedia(ctx *gin.Context) {
+	// ambil socialmedia id dari path variable
+	id, err := strconv.Atoi(ctx.Param("socialMediaId"))
+	if err != nil {
+		idError := errs.NewBadRequest("Invalid ID format")
+		ctx.JSON(idError.StatusCode(), idError)
+		return
+	}
+
+	var requestBody dto.NewSocialMediaRequest
+
+	err = ctx.ShouldBindJSON(&requestBody)
+	if err != nil {
+		newError := errs.NewUnprocessableEntity(err.Error())
+		ctx.JSON(newError.StatusCode(), newError)
+		return
+	}
+
+	err2 := requestBody.ValidateStruct()
+	if err2 != nil {
+		ctx.JSON(err2.StatusCode(), err2)
+		return
+	}
+
+	updatedUserResponse, err3 := sm.socialMediaService.UpdateSocialMedia(id, &requestBody)
+
+	if err3 != nil {
+		ctx.JSON(err3.StatusCode(), err3)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, updatedUserResponse)
+}
 
 func (sm *socialMediaHandler) DeleteSocialMedia(ctx *gin.Context) {}

@@ -74,8 +74,8 @@ func StartApp() *gin.Engine {
 	{
 		socialMediasRouter.POST("/", socialMediaHandler.CreateSocialMedia)
 		socialMediasRouter.GET("/", socialMediaHandler.GetAllSocialMedias)
-		socialMediasRouter.PUT("/:id", socialMediaHandler.UpdateSocialMedia)
-		socialMediasRouter.DELETE("/:id", socialMediaHandler.DeleteSocialMedia)
+		socialMediasRouter.PUT("/:socialMediaId", middlewares.SocialMediaAuthorization(), socialMediaHandler.UpdateSocialMedia)
+		socialMediasRouter.DELETE("/:socialMediaId", middlewares.SocialMediaAuthorization(), socialMediaHandler.DeleteSocialMedia)
 	}
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
