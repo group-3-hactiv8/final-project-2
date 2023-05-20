@@ -2,7 +2,9 @@ package http_handlers
 
 import (
 	"final-project-2/dto"
+	"final-project-2/models"
 	"final-project-2/pkg/errs"
+	"final-project-2/services"
 	"net/http"
 	"strconv"
 
@@ -10,15 +12,15 @@ import (
 )
 
 type photoHandler struct {
-	photoService service.PhotoService
+	photoService services.PhotoService
 }
 
-func NewPhotoService(photoService service.PhotoService) *photoHandler {
+func NewPhotoService(photoService services.PhotoService) *photoHandler {
 	return &photoHandler{photoService: photoService}
 }
 
 func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
-	userData, ok := ctx.MustGet("userData").(*entity.User)
+	userData, ok := ctx.MustGet("userData").(*models.User)
 	if !ok {
 		newError := errs.NewBadRequest("Failed to get user data")
 		ctx.JSON(newError.StatusCode(), newError)
@@ -42,7 +44,7 @@ func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
 }
 
 func (p *photoHandler) GetAllPhotos(ctx *gin.Context) {
-	_, ok := ctx.MustGet("userData").(*entity.User)
+	_, ok := ctx.MustGet("userData").(*models.User)
 	if !ok {
 		newError := errs.NewBadRequest("Failed to get user data")
 		ctx.JSON(newError.StatusCode(), newError)
