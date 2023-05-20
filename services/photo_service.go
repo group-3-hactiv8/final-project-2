@@ -60,7 +60,7 @@ func (p *photoService) GetAllPhotos() ([]dto.GetAllPhotosResponse, errs.MessageE
 
 	response := []dto.GetAllPhotosResponse{}
 	for _, photo := range photos {
-		user, err := p.userRepo.GetPhotoByID(photo.UserID)
+		user, err := p.photoRepo.GetPhotoByID(uint(photo.UserID))
 		if err != nil {
 			return nil, err
 		}
@@ -70,7 +70,7 @@ func (p *photoService) GetAllPhotos() ([]dto.GetAllPhotosResponse, errs.MessageE
 			Title:     photo.Title,
 			Caption:   photo.Caption,
 			PhotoURL:  photo.PhotoURL,
-			UserID:    photo.UserID,
+			UserID:    uint(photo.UserID),
 			CreatedAt: photo.CreatedAt,
 			UpdatedAt: photo.UpdatedAt,
 			User: dto.UserData{
@@ -101,7 +101,7 @@ func (p *photoService) UpdatePhoto(id uint, payload *dto.UpdatePhotoRequest) (*d
 		Title:     updatedPhoto.Title,
 		Caption:   updatedPhoto.Caption,
 		PhotoURL:  updatedPhoto.PhotoURL,
-		UserID:    updatedPhoto.UserID,
+		UserID:    uint(updatedPhoto.UserID),
 		UpdatedAt: updatedPhoto.UpdatedAt,
 	}
 
