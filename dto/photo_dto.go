@@ -42,6 +42,7 @@ type GetAllPhotosResponse struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 	User      UserData  `json:"user"`
+	Email     UserData  `json:"email"`
 }
 
 // UserData defines the user-related information used in various responses.

@@ -10,13 +10,9 @@ import (
 
 // PhotoService is an interface for performing CRUD operations on photos.
 type PhotoService interface {
-	// CreatePhoto creates a new photo and returns a response or an error.
 	CreatePhoto(user *models.User, payload *dto.CreatePhotoRequest) (*dto.CreatePhotoResponse, errs.MessageErr)
-	// GetAllPhotos retrieves all photos and their associated user information and returns them as a slice or an error.
 	GetAllPhotos() ([]dto.GetAllPhotosResponse, errs.MessageErr)
-	// UpdatePhoto updates the photo with the given ID and returns a response or an error.
 	UpdatePhoto(id uint, payload *dto.UpdatePhotoRequest) (*dto.UpdatePhotoResponse, errs.MessageErr)
-	// DeletePhoto deletes the photo with the given ID and returns a response or an error.
 	DeletePhoto(id uint) (*dto.DeletePhotoResponse, errs.MessageErr)
 }
 
@@ -60,7 +56,7 @@ func (p *photoService) GetAllPhotos() ([]dto.GetAllPhotosResponse, errs.MessageE
 
 	response := []dto.GetAllPhotosResponse{}
 	for _, photo := range photos {
-		user, err := p.photoRepo.GetPhotoByID(uint(photo.UserID))
+		_, err := p.photoRepo.GetPhotoByID(uint(photo.UserID))
 		if err != nil {
 			return nil, err
 		}
@@ -73,10 +69,6 @@ func (p *photoService) GetAllPhotos() ([]dto.GetAllPhotosResponse, errs.MessageE
 			UserID:    uint(photo.UserID),
 			CreatedAt: photo.CreatedAt,
 			UpdatedAt: photo.UpdatedAt,
-			User: dto.UserData{
-				Email:    user.Email,
-				Username: user.Username,
-			},
 		})
 	}
 
