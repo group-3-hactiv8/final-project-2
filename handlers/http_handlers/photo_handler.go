@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,17 +16,25 @@ type photoHandler struct {
 	photoService services.PhotoService
 }
 
-func NewPhotoService(photoService services.PhotoService) *photoHandler {
+func NewPhotoHandler(photoService services.PhotoService) *photoHandler {
 	return &photoHandler{photoService: photoService}
 }
 
 func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
-	userData, ok := ctx.MustGet("userData").(*models.User)
-	if !ok {
-		newError := errs.NewBadRequest("Failed to get user data")
-		ctx.JSON(newError.StatusCode(), newError)
-		return
+	// userData, ok := ctx.MustGet("userData").(*models.User)
+	userData := ctx.MustGet("userData").(jwt.MapClaims)
+	userId := uint(userData["id"].(float64))
+	username := userData["username"].(string)
+	user := &models.User{
+		Username: username,
 	}
+	user.ID = userId
+	// if !ok {
+	// 	fmt.Println(ctx.MustGet("userData"))
+	// 	newError := errs.NewBadRequest("Failed to get user data")
+	// 	ctx.JSON(newError.StatusCode(), newError)
+	// 	return
+	// }
 	var requestBody dto.CreatePhotoRequest
 
 	if err := ctx.ShouldBindJSON(&requestBody); err != nil {
@@ -34,7 +43,7 @@ func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
 		return
 	}
 
-	createdPhoto, err := p.photoService.CreatePhoto(userData, &requestBody)
+	createdPhoto, err := p.photoService.CreatePhoto(user, &requestBody)
 	if err != nil {
 		ctx.JSON(err.StatusCode(), err)
 		return

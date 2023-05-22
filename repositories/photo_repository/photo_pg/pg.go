@@ -19,7 +19,8 @@ func NewPhotoPG(db *gorm.DB) photo_repository.PhotoRepository {
 }
 
 func (p *photoPg) CreatePhoto(user *models.User, photo *models.Photo) (*models.Photo, errs.MessageErr) {
-	if err := p.db.Model(user).Association("Photos").Append(photo); err != nil {
+	photo.UserId = (user.ID)
+	if err := p.db.Create(photo).Error; err != nil {
 		log.Println("Error:", err.Error())
 		return nil, errs.NewInternalServerError("Failed to create new photo")
 	}

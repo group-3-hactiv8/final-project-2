@@ -7,5 +7,6 @@ type Photo struct {
 	Title    string `json:"title"`
 	Caption  string `json:"caption"`
 	PhotoURL string `json:"photo_url"`
-	UserID   int    `json:"user_id"`
+	UserId   uint   `json:"user_id"`
+	User     User
 }

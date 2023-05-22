@@ -1,9 +1,12 @@
 package middlewares
 
 import (
+	"errors"
 	"final-project-2/database"
 	"final-project-2/models"
 	"final-project-2/pkg/errs"
+	"fmt"
+	"net/http"
 	"strconv"
 
 	"github.com/dgrijalva/jwt-go"
@@ -81,6 +84,45 @@ func SocialMediaAuthorization() gin.HandlerFunc {
 		if requestedSocialMedia.UserId != userId {
 			unauthorizedError := errs.NewUnauthorized("You are not allowed to access this Social Media")
 			c.AbortWithStatusJSON(unauthorizedError.StatusCode(), unauthorizedError)
+			return
+		}
+
+		c.Next()
+	}
+
+}
+
+func PhotoAuthorization() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		db := database.GetPostgresInstance()
+
+		photoID, err := strconv.Atoi(c.Param("photoId"))
+		if err != nil {
+			badRequestError := fmt.Errorf("Invalid photo ID: %v", err)
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": badRequestError.Error()})
+			return
+		}
+
+		// userData, ok := c.Get("userData").(jwt.MapClaims)
+		userData, ok := c.MustGet("userData").(jwt.MapClaims)
+		if !ok {
+			unauthorizedError := errors.New("Unauthorized access")
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": unauthorizedError.Error()})
+			return
+		}
+		userID := uint(userData["id"].(float64))
+		requestedPhoto := &models.Photo{}
+
+		err = db.First(requestedPhoto, "id = ?", photoID).Error
+		if err != nil {
+			notFoundError := fmt.Errorf("Photo not found: %v", err)
+			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": notFoundError.Error()})
+			return
+		}
+
+		if requestedPhoto.ID != userID {
+			unauthorizedError := errors.New("You are not allowed to access this Photo")
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": unauthorizedError.Error()})
 			return
 		}
 
