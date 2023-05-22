@@ -57,9 +57,8 @@ func (sm *socialMediaService) GetAllSocialMedias() (*dto.AllSocialMediasResponse
 	for _, sm := range *allSM {
 		userOfSM = sm.User
 		userOfSMResponse = dto.UserOfSocialMediaResponse{
-			ID:              userOfSM.ID,
-			Username:        userOfSM.Username,
-			ProfileImageUrl: "diisi apa?", // TODO: diisi dengan photo_url apa?
+			ID:       userOfSM.ID,
+			Username: userOfSM.Username,
 		}
 		smResponse = dto.SocialMediaResponse{
 			ID:             sm.ID,
