@@ -149,7 +149,7 @@ func (u *userHandler) UpdateUser(ctx *gin.Context) {
 //	@Description	Delete a user by JWT from header
 //	@Tags			users
 //	@Produce		json
-//	@Success		200		{object}	dto.NewUserResponse
+//	@Success		200		{object}	dto.DeleteUserResponse
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Router			/users/ [delete]
 func (u *userHandler) DeleteUser(ctx *gin.Context) {
