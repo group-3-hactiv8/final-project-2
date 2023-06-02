@@ -18,6 +18,20 @@ func NewUserPG(db *gorm.DB) user_repository.UserRepository {
 	return &userPG{db: db}
 }
 
+func (u *userPG) GetUserByID(user *models.User) errs.MessageErr {
+	err := u.db.Where("id = ?", user.ID).Take(&user).Error
+	// Karna di Take, objek user akan terupdate, termasuk passwordnya.
+	// Makannya kita simpen dulu password dari request nya di service level.
+
+	if err != nil {
+		message := fmt.Sprintf("User with ID %v not found", user.ID)
+		err2 := errs.NewNotFound(message)
+		return err2
+	}
+
+	return nil
+}
+
 func (u *userPG) RegisterUser(newUser *models.User) (*models.User, errs.MessageErr) {
 	if err := u.db.Create(newUser).Error; err != nil {
 		log.Println(err.Error())
