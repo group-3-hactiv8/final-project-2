@@ -64,7 +64,7 @@ func (u *userHandler) RegisterUser(ctx *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //	@Param			user	body		dto.LoginUserRequest	true	"Login user request body"
-//	@Success		200		{object}	dto.NewUserResponse
+//	@Success		200		{object}	dto.LoginUserResponse
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		400		{object}	errs.MessageErrData
 //	@Router			/users/login [post]
@@ -103,7 +103,7 @@ func (u *userHandler) LoginUser(ctx *gin.Context) {
 //	@Produce		json
 //	@Param			user	body		dto.UpdateUserRequest	true	"Update a user request body"
 //	@Param			id		path		uint					true	"User ID request"
-//	@Success		200		{object}	dto.NewUserResponse
+//	@Success		200		{object}	dto.UpdateUserResponse
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		400		{object}	errs.MessageErrData
@@ -149,7 +149,7 @@ func (u *userHandler) UpdateUser(ctx *gin.Context) {
 //	@Description	Delete a user by JWT from header
 //	@Tags			users
 //	@Produce		json
-//	@Success		200		{object}	dto.NewUserResponse
+//	@Success		200		{object}	dto.DeleteUserResponse
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Router			/users/ [delete]
 func (u *userHandler) DeleteUser(ctx *gin.Context) {

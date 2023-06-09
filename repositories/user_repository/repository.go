@@ -6,6 +6,7 @@ import (
 )
 
 type UserRepository interface {
+	GetUserByID(user *models.User) errs.MessageErr
 	RegisterUser(user *models.User) (*models.User, errs.MessageErr)
 	LoginUser(user *models.User) errs.MessageErr
 	UpdateUser(user *models.User) (*models.User, errs.MessageErr)

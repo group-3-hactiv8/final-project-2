@@ -39,9 +39,8 @@ type NewSocialMediaResponse struct {
 }
 
 type UserOfSocialMediaResponse struct {
-	ID              uint   `json:"id"`
-	Username        string `json:"username"`
-	ProfileImageUrl string `json:"profile_image_url"`
+	ID       uint   `json:"id"`
+	Username string `json:"username"`
 }
 type SocialMediaResponse struct {
 	ID             uint                      `json:"id"`

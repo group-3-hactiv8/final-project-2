@@ -73,7 +73,7 @@ func (sm *socialMediaHandler) CreateSocialMedia(ctx *gin.Context) {
 //	@Success		200		{object}	dto.AllSocialMediasResponse
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		500		{object}	errs.MessageErrData
-//	@Router			/socialmedias [post]
+//	@Router			/socialmedias [get]
 func (sm *socialMediaHandler) GetAllSocialMedias(ctx *gin.Context) {
 	allSMResponse, err3 := sm.socialMediaService.GetAllSocialMedias()
 
@@ -98,7 +98,7 @@ func (sm *socialMediaHandler) GetAllSocialMedias(ctx *gin.Context) {
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		400		{object}	errs.MessageErrData
-//	@Router			/users/{id} [put]
+//	@Router			/socialmedias/{id} [put]
 func (sm *socialMediaHandler) UpdateSocialMedia(ctx *gin.Context) {
 	// ambil socialmedia id dari path variable
 	id, err := strconv.Atoi(ctx.Param("socialMediaId"))
@@ -143,7 +143,7 @@ func (sm *socialMediaHandler) UpdateSocialMedia(ctx *gin.Context) {
 //	@Success		200		{object}	dto.DeleteSocialMediaResponse
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		400		{object}	errs.MessageErrData
-//	@Router			/users/{id} [delete]
+//	@Router			/socialmedias/{id} [delete]
 func (sm *socialMediaHandler) DeleteSocialMedia(ctx *gin.Context) {
 	// ambil socialmedia id dari path variable
 	id, err := strconv.Atoi(ctx.Param("socialMediaId"))
