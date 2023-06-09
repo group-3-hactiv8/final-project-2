@@ -2,18 +2,15 @@ package handlers
 
 import (
 	"final-project-2/database"
-	"final-project-2/middlewares"
-
-	// _ "final-project-2/docs"
+	// "final-project-2/docs"
 	"final-project-2/handlers/http_handlers"
+	"final-project-2/middlewares"
+	"final-project-2/repositories/photo_repository/photo_pg"
 	"final-project-2/repositories/social_media_repository/social_media_pg"
 	"final-project-2/repositories/user_repository/user_pg"
 	"final-project-2/services"
 
 	"github.com/gin-gonic/gin"
-	ginSwagger "github.com/swaggo/gin-swagger"
-
-	swaggerfiles "github.com/swaggo/files"
 )
 
 // @title MyGram API
@@ -78,7 +75,20 @@ func StartApp() *gin.Engine {
 		socialMediasRouter.DELETE("/:socialMediaId", middlewares.SocialMediaAuthorization(), socialMediaHandler.DeleteSocialMedia)
 	}
 
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	photoRepo := photo_pg.NewPhotoPG(db)
+	photoService := services.NewPhotoService(photoRepo, userRepo)
+	photoHandler := http_handlers.NewPhotoHandler(photoService)
+
+	photoRouter := router.Group("/photos")
+	photoRouter.Use(middlewares.Authentication())
+	{
+		photoRouter.POST("/", photoHandler.CreatePhoto)
+		photoRouter.GET("/", photoHandler.GetAllPhotos)
+		photoRouter.PUT("/:photoID", middlewares.PhotoAuthorization(), photoHandler.UpdatePhoto)
+		photoRouter.DELETE("/:photoID", middlewares.PhotoAuthorization(), photoHandler.DeletePhoto)
+	}
+
+	// router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	return router
 

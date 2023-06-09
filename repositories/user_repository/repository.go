@@ -12,3 +12,5 @@ type UserRepository interface {
 	UpdateUser(user *models.User) (*models.User, errs.MessageErr)
 	DeleteUser(id uint) errs.MessageErr
 }
+
+//find one user by id
