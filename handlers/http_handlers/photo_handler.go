@@ -53,12 +53,7 @@ func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
 }
 
 func (p *photoHandler) GetAllPhotos(ctx *gin.Context) {
-	_, ok := ctx.MustGet("userData").(*models.User)
-	if !ok {
-		newError := errs.NewBadRequest("Failed to get user data")
-		ctx.JSON(newError.StatusCode(), newError)
-		return
-	}
+
 
 	photos, err := p.photoService.GetAllPhotos()
 	if err != nil {

@@ -9,7 +9,7 @@ import (
 type CreatePhotoRequest struct {
 	Title    string `json:"title" binding:"required"`         // Title of the photo - mandatory field
 	Caption  string `json:"caption"`                          // Caption of the photo - optional field
-	PhotoURL string `json:"photo_url" binding:"required,url"` // Photo URL is a mandatory and must be valid URL
+	PhotoURL string `json:"photo_url" binding:"required"` // Photo URL is a mandatory and must be valid URL
 }
 
 // ToModels converts CreatePhotoRequest to models.Photo type.

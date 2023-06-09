@@ -73,10 +73,10 @@ func (p *photoService) GetAllPhotos() ([]dto.GetAllPhotosResponse, errs.MessageE
 	response := []dto.GetAllPhotosResponse{}
 	for _, photo := range photos {
 		// Get the associated user information for each photo.
-		_, err := p.photoRepo.GetPhotoByID(uint(photo.UserId))
-		if err != nil {
-			return nil, err
-		}
+		//_, err := p.userRepo.Get
+		//if err != nil {
+		//	return nil, err
+		//}
 
 		// Convert the photo to a DTO response and append it to the response array.
 		response = append(response, dto.GetAllPhotosResponse{

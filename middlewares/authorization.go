@@ -96,7 +96,7 @@ func PhotoAuthorization() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		db := database.GetPostgresInstance()
 
-		photoID, err := strconv.Atoi(c.Param("photoId"))
+		photoID, err := strconv.Atoi(c.Param("photoID"))
 		if err != nil {
 			badRequestError := fmt.Errorf("Invalid photo ID: %v", err)
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": badRequestError.Error()})
@@ -120,7 +120,7 @@ func PhotoAuthorization() gin.HandlerFunc {
 			return
 		}
 
-		if requestedPhoto.ID != userID {
+		if requestedPhoto.UserId != userID {
 			unauthorizedError := errors.New("You are not allowed to access this Photo")
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": unauthorizedError.Error()})
 			return
