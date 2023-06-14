@@ -129,3 +129,37 @@ func PhotoAuthorization() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+func CommentAuthorization() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		db := database.GetPostgresInstance()
+		// misal ada user yg mau akses product berdasarkan commentId
+		// nya melalui param. Param = path variable
+		commentId, err := strconv.Atoi(c.Param("commentId"))
+		if err != nil {
+			badRequestError := errs.NewBadRequest("Invalid parameter for commentId")
+			c.AbortWithStatusJSON(badRequestError.StatusCode(), badRequestError)
+			return
+		}
+		userData := c.MustGet("userData").(jwt.MapClaims)
+		userId := uint(userData["id"].(float64))
+		requestedComment := &models.Comment{}
+		
+		err = db.Where("id = ?", commentId).Take(&requestedComment).Error
+
+		if err != nil {
+			notFoundError := errs.NewNotFound("Comment not found")
+			c.AbortWithStatusJSON(notFoundError.StatusCode(), notFoundError)
+			return
+		}
+
+		if requestedComment.UserId != userId {
+			unauthorizedError := errs.NewUnauthorized("You are not allowed to access this Comment")
+			c.AbortWithStatusJSON(unauthorizedError.StatusCode(), unauthorizedError)
+			return
+		}
+
+		c.Next()
+	}
+
+}
