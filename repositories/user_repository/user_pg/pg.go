@@ -98,3 +98,12 @@ func (u *userPG) DeleteUser(id uint) errs.MessageErr {
 
 	return nil
 }
+
+func (u *userPG) GetUserByIDComment(id uint) (*models.User, errs.MessageErr) {
+	var user models.User
+	if err := u.db.First(&user, id).Error; err != nil {
+		return nil, errs.NewNotFound(fmt.Sprintf("User with id %d is not found", id))
+	}
+
+	return &user, nil
+}

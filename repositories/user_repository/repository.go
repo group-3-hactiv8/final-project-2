@@ -11,6 +11,7 @@ type UserRepository interface {
 	LoginUser(user *models.User) errs.MessageErr
 	UpdateUser(user *models.User) (*models.User, errs.MessageErr)
 	DeleteUser(id uint) errs.MessageErr
+	GetUserByIDComment(id uint) (*models.User, errs.MessageErr)
 }
 
 //find one user by id

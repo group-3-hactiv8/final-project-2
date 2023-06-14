@@ -10,11 +10,13 @@ import (
 )
 
 const (
-	host     = "localhost"
-	user     = "postgres"
-	password = "postgres"
-	dbPort   = 5432
-	dbname   = "final-project-2"
+	host = "localhost"
+	user = "postgres"
+	// password = "postgres"
+	password = "santoso" // local rakha
+	// dbPort   = 5432
+	dbPort = 5433 // local rakha
+	dbname = "final-project-2"
 )
 
 var (
