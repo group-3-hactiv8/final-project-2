@@ -60,8 +60,8 @@ func (c *commentHandler) CreateComment(ctx *gin.Context) {
 
 // GetCommentByUserId godoc
 //
-//	@Summary		Update a comment
-//	@Description	Update a comment by json
+//	@Summary		View all comments of a user
+//	@Description	View all comments of a user by json
 //	@Tags			comment
 //	@Accept			json
 //	@Produce		json
@@ -70,7 +70,7 @@ func (c *commentHandler) CreateComment(ctx *gin.Context) {
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		400		{object}	errs.MessageErrData
-//	@Router			/comment/user/:{userId} [get]
+//	@Router			/comment/user/{userId} [get]
 func (c *commentHandler) GetCommentByUserId(ctx *gin.Context) {
 	userData := ctx.MustGet("userData").(jwt.MapClaims)
 	userId := uint(userData["id"].(float64))
@@ -84,17 +84,16 @@ func (c *commentHandler) GetCommentByUserId(ctx *gin.Context) {
 
 	if err != nil {
 		ctx.JSON(err.StatusCode(), err)
-		return 
+		return
 	}
 
 	ctx.JSON(http.StatusOK, comments)
 }
 
-
 // GetCommentByPhotoId godoc
 //
-//	@Summary		Update a comment
-//	@Description	Update a comment by json
+//	@Summary		View all comments of a photo
+//	@Description	View all comments of a photo by json
 //	@Tags			comment
 //	@Accept			json
 //	@Produce		json
@@ -103,7 +102,7 @@ func (c *commentHandler) GetCommentByUserId(ctx *gin.Context) {
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		400		{object}	errs.MessageErrData
-//	@Router			/comment/photo/:{photoId} [get]
+//	@Router			/comment/photo/{photoId} [get]
 func (c *commentHandler) GetCommentByPhotoId(ctx *gin.Context) {
 	photoId, err := strconv.Atoi(ctx.Param("photoId"))
 	if err != nil {
@@ -201,7 +200,6 @@ func (c *commentHandler) UpdateComment(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, updateComment)
 }
-
 
 // DeleteComment godoc
 //
