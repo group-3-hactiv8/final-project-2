@@ -10,7 +10,7 @@ import (
 type UserService interface {
 	RegisterUser(payload *dto.NewUserRequest) (*dto.NewUserResponse, errs.MessageErr)
 	LoginUser(payload *dto.LoginUserRequest) (*dto.LoginUserResponse, errs.MessageErr)
-	UpdateUser(id int, payload *dto.UpdateUserRequest) (*dto.UpdateUserResponse, errs.MessageErr)
+	UpdateUser(id uint, payload *dto.UpdateUserRequest) (*dto.UpdateUserResponse, errs.MessageErr)
 	DeleteUser(id uint) (*dto.DeleteUserResponse, errs.MessageErr)
 }
 
@@ -68,14 +68,10 @@ func (u *userService) LoginUser(payload *dto.LoginUserRequest) (*dto.LoginUserRe
 	return response, nil
 }
 
-func (u *userService) UpdateUser(id int, payload *dto.UpdateUserRequest) (*dto.UpdateUserResponse, errs.MessageErr) {
+func (u *userService) UpdateUser(id uint, payload *dto.UpdateUserRequest) (*dto.UpdateUserResponse, errs.MessageErr) {
 	userUpdateRequest := payload.UpdateUserRequestToModel()
-	if id < 1 {
-		idError := errs.NewBadRequest("ID value must be positive")
-		return nil, idError
-	}
 
-	userUpdateRequest.ID = uint(id)
+	userUpdateRequest.ID = id
 
 	updatedUser, err := u.userRepo.UpdateUser(userUpdateRequest)
 	if err != nil {

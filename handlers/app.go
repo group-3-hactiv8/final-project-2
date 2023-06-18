@@ -38,7 +38,7 @@ func StartApp() *gin.Engine {
 	{
 		usersRouter.POST("/register", userHandler.RegisterUser)
 		usersRouter.POST("/login", userHandler.LoginUser)
-		usersRouter.PUT("/:id", middlewares.Authentication(), userHandler.UpdateUser)
+		usersRouter.PUT("/", middlewares.Authentication(), userHandler.UpdateUser)
 		usersRouter.DELETE("/", middlewares.Authentication(), userHandler.DeleteUser)
 	}
 

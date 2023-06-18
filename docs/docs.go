@@ -19,6 +19,38 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/": {
+            "get": {
+                "description": "Get all photos by json",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "photos"
+                ],
+                "summary": "Get all photos",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.GetAllPhotosResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    }
+                }
+            }
+        },
         "/comment": {
             "get": {
                 "description": "View all comment by json",
@@ -103,7 +135,7 @@ const docTemplate = `{
         },
         "/comment/photo/{photoId}": {
             "get": {
-                "description": "Update a comment by json",
+                "description": "View all comments of a photo by json",
                 "consumes": [
                     "application/json"
                 ],
@@ -113,7 +145,7 @@ const docTemplate = `{
                 "tags": [
                     "comment"
                 ],
-                "summary": "Update a comment",
+                "summary": "View all comments of a photo",
                 "parameters": [
                     {
                         "type": "integer",
@@ -153,7 +185,7 @@ const docTemplate = `{
         },
         "/comment/user/{userId}": {
             "get": {
-                "description": "Update a comment by json",
+                "description": "View all comments of a user by json",
                 "consumes": [
                     "application/json"
                 ],
@@ -163,7 +195,7 @@ const docTemplate = `{
                 "tags": [
                     "comment"
                 ],
-                "summary": "Update a comment",
+                "summary": "View all comments of a user",
                 "parameters": [
                     {
                         "type": "integer",
@@ -292,6 +324,117 @@ const docTemplate = `{
                     },
                     "401": {
                         "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    }
+                }
+            }
+        },
+        "/photo": {
+            "post": {
+                "description": "Create a photo by json",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "photo"
+                ],
+                "summary": "Create a photo",
+                "parameters": [
+                    {
+                        "description": "Create a photo request body",
+                        "name": "comment",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreatePhotoRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreatePhotoResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    }
+                }
+            }
+        },
+        "/photos/{photosId}": {
+            "put": {
+                "description": "Update a Photo by json",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "photos"
+                ],
+                "summary": "Update a Photo",
+                "parameters": [
+                    {
+                        "description": "Update a photos request body",
+                        "name": "photo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdatePhotoRequest"
+                        }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "photos ID request",
+                        "name": "commentId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdatePhotoResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
                         "schema": {
                             "$ref": "#/definitions/errs.MessageErrData"
                         }
@@ -480,6 +623,56 @@ const docTemplate = `{
             }
         },
         "/users/": {
+            "put": {
+                "description": "Update a user by json",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Update a user",
+                "parameters": [
+                    {
+                        "description": "Update a user request body",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateUserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "Delete a user by JWT from header",
                 "produces": [
@@ -596,65 +789,6 @@ const docTemplate = `{
                     }
                 }
             }
-        },
-        "/users/{id}": {
-            "put": {
-                "description": "Update a user by json",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "users"
-                ],
-                "summary": "Update a user",
-                "parameters": [
-                    {
-                        "description": "Update a user request body",
-                        "name": "user",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.UpdateUserRequest"
-                        }
-                    },
-                    {
-                        "type": "integer",
-                        "description": "User ID request",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.UpdateUserResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/errs.MessageErrData"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/errs.MessageErrData"
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "schema": {
-                            "$ref": "#/definitions/errs.MessageErrData"
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
@@ -666,6 +800,56 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/dto.SocialMediaResponse"
                     }
+                }
+            }
+        },
+        "dto.CreatePhotoRequest": {
+            "type": "object",
+            "required": [
+                "photo_url",
+                "title"
+            ],
+            "properties": {
+                "caption": {
+                    "description": "Caption of the photo - optional field",
+                    "type": "string"
+                },
+                "photo_url": {
+                    "description": "Photo URL is a mandatory and must be valid URL",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "Title of the photo - mandatory field",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreatePhotoResponse": {
+            "type": "object",
+            "properties": {
+                "caption": {
+                    "description": "Caption of the photo",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "Time at which photo was created",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "The unique identifier of the created photo",
+                    "type": "integer"
+                },
+                "photo_url": {
+                    "description": "URL of the photo",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "Title of the photo",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "User ID of the creator of the photo",
+                    "type": "integer"
                 }
             }
         },
@@ -718,6 +902,55 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.GetAllPhotosResponse": {
+            "type": "object",
+            "properties": {
+                "caption": {
+                    "description": "Caption of the photo",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "Time at which photo was created",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "Email address related to user data",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/dto.UserData"
+                        }
+                    ]
+                },
+                "id": {
+                    "description": "The unique identifier of the photo",
+                    "type": "integer"
+                },
+                "photo_url": {
+                    "description": "URL of the photo",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "Title of the photo",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "Time at which photo was updated",
+                    "type": "string"
+                },
+                "user": {
+                    "description": "User related data",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/dto.UserData"
+                        }
+                    ]
+                },
+                "user_id": {
+                    "description": "User ID of the creator of the photo",
                     "type": "integer"
                 }
             }
@@ -915,6 +1148,56 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.UpdatePhotoRequest": {
+            "type": "object",
+            "required": [
+                "photo_url",
+                "title"
+            ],
+            "properties": {
+                "caption": {
+                    "description": "Caption of the photo - optional field",
+                    "type": "string"
+                },
+                "photo_url": {
+                    "description": "Photo URL is a mandatory and must be valid URL",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "Title of the photo - mandatory field",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UpdatePhotoResponse": {
+            "type": "object",
+            "properties": {
+                "caption": {
+                    "description": "Caption of the photo",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "The unique identifier of the photo",
+                    "type": "integer"
+                },
+                "photo_url": {
+                    "description": "URL of the photo",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "Title of the photo",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "Time at which photo was updated",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "User ID of the creator of the photo",
+                    "type": "integer"
+                }
+            }
+        },
         "dto.UpdateSocialMediaResponse": {
             "type": "object",
             "properties": {
@@ -962,6 +1245,19 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UserData": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "description": "User's email address",
+                    "type": "string"
+                },
+                "username": {
+                    "description": "User's username",
                     "type": "string"
                 }
             }

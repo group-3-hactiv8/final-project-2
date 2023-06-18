@@ -5,7 +5,7 @@ MyGram
 Users
 1. POST - http://localhost:8080/users/register - Register a user
 2. POST - http://localhost:8080/users/login - Login
-3. PUT - http://localhost:8080/users/{userId} - Update a user
+3. PUT - http://localhost:8080/users/ - Update a user
 4. DELETE - http://localhost:8080/users/ - Delete a user
 
 Photos

@@ -20,6 +20,20 @@ func NewPhotoHandler(photoService services.PhotoService) *photoHandler {
 	return &photoHandler{photoService: photoService}
 }
 
+
+// CreatePhoto godoc
+//
+//	@Summary		Create a photo
+//	@Description	Create a photo by json
+//	@Tags			photo
+//	@Accept			json
+//	@Produce		json
+//	@Param			comment	body		dto.CreatePhotoRequest	true	"Create a photo request body"
+//	@Success		201		{object}	dto.CreatePhotoResponse
+//	@Failure		401		{object}	errs.MessageErrData
+//	@Failure		422		{object}	errs.MessageErrData
+//	@Failure		500		{object}	errs.MessageErrData
+//	@Router			/photo [post]
 func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
 	// userData, ok := ctx.MustGet("userData").(*models.User)
 	userData := ctx.MustGet("userData").(jwt.MapClaims)
@@ -29,12 +43,6 @@ func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
 		Username: username,
 	}
 	user.ID = userId
-	// if !ok {
-	// 	fmt.Println(ctx.MustGet("userData"))
-	// 	newError := errs.NewBadRequest("Failed to get user data")
-	// 	ctx.JSON(newError.StatusCode(), newError)
-	// 	return
-	// }
 	var requestBody dto.CreatePhotoRequest
 
 	if err := ctx.ShouldBindJSON(&requestBody); err != nil {
@@ -52,6 +60,18 @@ func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, createdPhoto)
 }
 
+
+
+// GetAllComment godoc
+//
+//	@Summary		Get all photos
+//	@Description	Get all photos by json
+//	@Tags			photos
+//	@Produce		json
+//	@Success		200		{object}	dto.GetAllPhotosResponse
+//	@Failure		401		{object}	errs.MessageErrData
+//	@Failure		500		{object}	errs.MessageErrData
+//	@Router			/ [get]
 func (p *photoHandler) GetAllPhotos(ctx *gin.Context) {
 
 
@@ -64,6 +84,20 @@ func (p *photoHandler) GetAllPhotos(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, photos)
 }
 
+// UpdatePhoto godoc
+//
+//	@Summary		Update a Photo
+//	@Description	Update a Photo by json
+//	@Tags			photos
+//	@Accept			json
+//	@Produce		json
+//	@Param			photo	body		dto.UpdatePhotoRequest	true	"Update a photos request body"
+//	@Param			commentId		path		uint					true	"photos ID request"
+//	@Success		200		{object}	dto.UpdatePhotoResponse
+//	@Failure		401		{object}	errs.MessageErrData
+//	@Failure		422		{object}	errs.MessageErrData
+//	@Failure		400		{object}	errs.MessageErrData
+//	@Router			/photos/{photosId} [put]
 func (p *photoHandler) UpdatePhoto(ctx *gin.Context) {
 	var requestBody dto.UpdatePhotoRequest
 	if err := ctx.ShouldBindJSON(&requestBody); err != nil {
@@ -88,6 +122,20 @@ func (p *photoHandler) UpdatePhoto(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, updatedPhoto)
 }
+
+// DeletePhoto godoc
+// @Summary Delete a photo
+// @Description Delete a specific photo by ID
+// @Tags Photos
+// @Param photoID path int true "Photo ID"
+// @Produce json
+// @Success 200 {object} DeletePhotoResponse
+// @Failure 400 {object} ErrorResponse
+// @Failure 404 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /photos/{photoID} [delete]
+
+
 
 func (p *photoHandler) DeletePhoto(ctx *gin.Context) {
 	photoID := ctx.Param("photoID")
