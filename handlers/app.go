@@ -30,6 +30,12 @@ func StartApp() *gin.Engine {
 
 	router := gin.Default()
 
+	router.GET("/health-check", func (c *gin.Context){
+		c.JSON(200, gin.H{
+			"appName" : "MyGramApp",
+		})
+	})
+
 	userRepo := user_pg.NewUserPG(db)
 	userService := services.NewUserService(userRepo)
 	userHandler := http_handlers.NewUserHandler(userService)
