@@ -22,7 +22,7 @@ import (
 // @description This is a server for MyGram Application.
 // @termsOfService http://swagger.io/terms/
 // @contact.name Swagger API Team
-// @host localhost:8080
+// @host https://final-project-2-production-1503.up.railway.app
 // @BasePath /
 func StartApp() *gin.Engine {
 	database.StartDB()
