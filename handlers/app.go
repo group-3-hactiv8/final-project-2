@@ -2,15 +2,19 @@ package handlers
 
 import (
 	"final-project-2/database"
-	// "final-project-2/docs"
+	_ "final-project-2/docs"
 	"final-project-2/handlers/http_handlers"
 	"final-project-2/middlewares"
+	"final-project-2/repositories/comment_repository/comment_pg"
 	"final-project-2/repositories/photo_repository/photo_pg"
 	"final-project-2/repositories/social_media_repository/social_media_pg"
 	"final-project-2/repositories/user_repository/user_pg"
 	"final-project-2/services"
 
+	ginSwagger "github.com/swaggo/gin-swagger"
+
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
 )
 
 // @title MyGram API
@@ -38,30 +42,6 @@ func StartApp() *gin.Engine {
 		usersRouter.DELETE("/", middlewares.Authentication(), userHandler.DeleteUser)
 	}
 
-	// userRepo := user_pg.NewUserPG(db)
-	// userService := service.NewUserService(userRepo)
-	// userHandler := http_handler.NewUserHandler(userService)
-
-	// photosRouter := router.Group("/photos")
-	// {
-	// 	photosRouter.POST("/", photoHandler.CreatePhoto)
-	// 	photosRouter.GET("/", photoHandler.GetAllPhotos)
-	// 	photosRouter.PUT("/:id", photoHandler.UpdatePhoto)
-	// 	photosRouter.DELETE("/:id", photoHandler.DeletePhoto)
-	// }
-
-	// userRepo := user_pg.NewUserPG(db)
-	// userService := service.NewUserService(userRepo)
-	// userHandler := http_handler.NewUserHandler(userService)
-
-	// commentsRouter := router.Group("/comments")
-	// {
-	// 	commentsRouter.POST("/", commentHandler.CreateComment)
-	// 	commentsRouter.GET("/", commentHandler.GetAllComments)
-	// 	commentsRouter.PUT("/:id", commentHandler.UpdateComment)
-	// 	commentsRouter.DELETE("/:id", commentHandler.DeleteComment)
-	// }
-
 	socialMediaRepo := social_media_pg.NewSocialMediaPG(db)
 	socialMediaService := services.NewSocialMediaService(socialMediaRepo)
 	socialMediaHandler := http_handlers.NewSocialMediaHandler(socialMediaService)
@@ -88,7 +68,22 @@ func StartApp() *gin.Engine {
 		photoRouter.DELETE("/:photoID", middlewares.PhotoAuthorization(), photoHandler.DeletePhoto)
 	}
 
-	// router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	commentRepo := comment_pg.NewCommentPG(db)
+	commentService := services.NewCommentService(commentRepo, photoRepo, userRepo)
+	commentHandler := http_handlers.NewCommentHandler(commentService)
+
+	commentRouter := router.Group("/comment")
+	commentRouter.Use(middlewares.Authentication())
+	{
+		commentRouter.POST("/", commentHandler.CreateComment)
+		commentRouter.GET("/", commentHandler.GetAllComment)
+		commentRouter.GET("/user/:userId", commentHandler.GetCommentByUserId)
+		commentRouter.GET("/photo/:photoId", commentHandler.GetCommentByPhotoId)
+		commentRouter.PUT("/:commentId", middlewares.CommentAuthorization(), commentHandler.UpdateComment)
+		commentRouter.DELETE("/:commentId", middlewares.CommentAuthorization(), commentHandler.DeleteComment)
+	}
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	return router
 

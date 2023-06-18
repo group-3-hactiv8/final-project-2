@@ -1,0 +1,859 @@
+definitions:
+  dto.AllSocialMediasResponse:
+    properties:
+      social_medias:
+        items:
+          $ref: '#/definitions/dto.SocialMediaResponse'
+        type: array
+    type: object
+  dto.CreatePhotoRequest:
+    properties:
+      caption:
+        description: Caption of the photo - optional field
+        type: string
+      photo_url:
+        description: Photo URL is a mandatory and must be valid URL
+        type: string
+      title:
+        description: Title of the photo - mandatory field
+        type: string
+    required:
+    - photo_url
+    - title
+    type: object
+  dto.CreatePhotoResponse:
+    properties:
+      caption:
+        description: Caption of the photo
+        type: string
+      created_at:
+        description: Time at which photo was created
+        type: string
+      id:
+        description: The unique identifier of the created photo
+        type: integer
+      photo_url:
+        description: URL of the photo
+        type: string
+      title:
+        description: Title of the photo
+        type: string
+      user_id:
+        description: User ID of the creator of the photo
+        type: integer
+    type: object
+  dto.DeleteCommentResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  dto.DeleteSocialMediaResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  dto.DeleteUserResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  dto.GetAllCommentResponse:
+    properties:
+      Photo:
+        $ref: '#/definitions/dto.PhotoDataForComment'
+      User:
+        $ref: '#/definitions/dto.UserDataForComment'
+      created_at:
+        type: string
+      id:
+        type: integer
+      message:
+        type: string
+      photo_id:
+        type: integer
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dto.GetAllPhotosResponse:
+    properties:
+      caption:
+        description: Caption of the photo
+        type: string
+      created_at:
+        description: Time at which photo was created
+        type: string
+      email:
+        allOf:
+        - $ref: '#/definitions/dto.UserData'
+        description: Email address related to user data
+      id:
+        description: The unique identifier of the photo
+        type: integer
+      photo_url:
+        description: URL of the photo
+        type: string
+      title:
+        description: Title of the photo
+        type: string
+      updated_at:
+        description: Time at which photo was updated
+        type: string
+      user:
+        allOf:
+        - $ref: '#/definitions/dto.UserData'
+        description: User related data
+      user_id:
+        description: User ID of the creator of the photo
+        type: integer
+    type: object
+  dto.LoginUserRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.LoginUserResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  dto.NewCommentRequest:
+    properties:
+      message:
+        type: string
+      photo_id:
+        type: integer
+    required:
+    - message
+    - photo_id
+    type: object
+  dto.NewCommentResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      message:
+        type: string
+      photo_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  dto.NewSocialMediaRequest:
+    properties:
+      name:
+        type: string
+      social_media_url:
+        type: string
+    type: object
+  dto.NewSocialMediaResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      social_media_url:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dto.NewUserRequest:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.NewUserResponse:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      id:
+        type: integer
+      username:
+        type: string
+    type: object
+  dto.PhotoDataForComment:
+    properties:
+      caption:
+        type: string
+      id:
+        type: integer
+      photo_url:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dto.SocialMediaResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      social_media_url:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/dto.UserOfSocialMediaResponse'
+      user_id:
+        type: integer
+    type: object
+  dto.UpdateCommentRequest:
+    properties:
+      message:
+        type: string
+    type: object
+  dto.UpdateCommentResponse:
+    properties:
+      id:
+        type: integer
+      message:
+        type: string
+      photo_id:
+        type: integer
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dto.UpdatePhotoRequest:
+    properties:
+      caption:
+        description: Caption of the photo - optional field
+        type: string
+      photo_url:
+        description: Photo URL is a mandatory and must be valid URL
+        type: string
+      title:
+        description: Title of the photo - mandatory field
+        type: string
+    required:
+    - photo_url
+    - title
+    type: object
+  dto.UpdatePhotoResponse:
+    properties:
+      caption:
+        description: Caption of the photo
+        type: string
+      id:
+        description: The unique identifier of the photo
+        type: integer
+      photo_url:
+        description: URL of the photo
+        type: string
+      title:
+        description: Title of the photo
+        type: string
+      updated_at:
+        description: Time at which photo was updated
+        type: string
+      user_id:
+        description: User ID of the creator of the photo
+        type: integer
+    type: object
+  dto.UpdateSocialMediaResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      social_media_url:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  dto.UpdateUserRequest:
+    properties:
+      email:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.UpdateUserResponse:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      id:
+        type: integer
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  dto.UserData:
+    properties:
+      email:
+        description: User's email address
+        type: string
+      username:
+        description: User's username
+        type: string
+    type: object
+  dto.UserDataForComment:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      username:
+        type: string
+    type: object
+  dto.UserOfSocialMediaResponse:
+    properties:
+      id:
+        type: integer
+      username:
+        type: string
+    type: object
+  errs.MessageErrData:
+    properties:
+      error:
+        example: BAD_REQUEST
+        type: string
+      message:
+        example: This is an error message
+        type: string
+      statusCode:
+        example: 400
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /:
+    get:
+      description: Get all photos by json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetAllPhotosResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Get all photos
+      tags:
+      - photos
+  /comment:
+    get:
+      description: View all comment by json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetAllCommentResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: View all comment
+      tags:
+      - comment
+    post:
+      consumes:
+      - application/json
+      description: Create a comment by json
+      parameters:
+      - description: Create a comment request body
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewCommentRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.NewCommentResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Create a comment
+      tags:
+      - comment
+  /comment/{commentId}:
+    delete:
+      description: Delete a comment by param
+      parameters:
+      - description: comment ID request
+        in: path
+        name: commentId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.DeleteCommentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Delete a comment
+      tags:
+      - comment
+    put:
+      consumes:
+      - application/json
+      description: Update a Comment by json
+      parameters:
+      - description: Update a comment request body
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateCommentRequest'
+      - description: comment ID request
+        in: path
+        name: commentId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UpdateCommentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Update a Comment
+      tags:
+      - comment
+  /comment/photo/{photoId}:
+    get:
+      consumes:
+      - application/json
+      description: View all comments of a photo by json
+      parameters:
+      - description: photo  ID request
+        in: path
+        name: photoId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetAllCommentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: View all comments of a photo
+      tags:
+      - comment
+  /comment/user/{userId}:
+    get:
+      consumes:
+      - application/json
+      description: View all comments of a user by json
+      parameters:
+      - description: user ID request
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetAllCommentResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: View all comments of a user
+      tags:
+      - comment
+  /photo:
+    post:
+      consumes:
+      - application/json
+      description: Create a photo by json
+      parameters:
+      - description: Create a photo request body
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreatePhotoRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.CreatePhotoResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Create a photo
+      tags:
+      - photo
+  /photos/{photosId}:
+    put:
+      consumes:
+      - application/json
+      description: Update a Photo by json
+      parameters:
+      - description: Update a photos request body
+        in: body
+        name: photo
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdatePhotoRequest'
+      - description: photos ID request
+        in: path
+        name: commentId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UpdatePhotoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Update a Photo
+      tags:
+      - photos
+  /socialmedias:
+    get:
+      description: View all social medias by json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AllSocialMediasResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: View all social medias
+      tags:
+      - socialmedias
+    post:
+      consumes:
+      - application/json
+      description: Create a social media by json
+      parameters:
+      - description: Create a social media request body
+        in: body
+        name: socialmedia
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewSocialMediaRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.NewSocialMediaResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Create a social media
+      tags:
+      - socialmedias
+  /socialmedias/{id}:
+    delete:
+      description: Delete a Social Media by param
+      parameters:
+      - description: Social Media ID request
+        in: path
+        name: socialMediaId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.DeleteSocialMediaResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Delete a Social Media
+      tags:
+      - socialmedias
+    put:
+      consumes:
+      - application/json
+      description: Update a Social Media by json
+      parameters:
+      - description: Update a social media request body
+        in: body
+        name: socialMedia
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewSocialMediaRequest'
+      - description: Social Media ID request
+        in: path
+        name: socialMediaId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UpdateSocialMediaResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Update a Social Media
+      tags:
+      - socialmedias
+  /users/:
+    delete:
+      description: Delete a user by JWT from header
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.DeleteUserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Delete a user
+      tags:
+      - users
+  /users/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a user by json
+      parameters:
+      - description: Update a user request body
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateUserRequest'
+      - description: User ID request
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UpdateUserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Update a user
+      tags:
+      - users
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: Login by json
+      parameters:
+      - description: Login user request body
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LoginUserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Login
+      tags:
+      - users
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a user by json
+      parameters:
+      - description: Create user request body
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.NewUserResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Register a user
+      tags:
+      - users
+swagger: "2.0"
