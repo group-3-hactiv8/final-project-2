@@ -5,7 +5,6 @@ import (
 	"final-project-2/pkg/errs"
 	"final-project-2/services"
 	"net/http"
-	"strconv"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -102,24 +101,21 @@ func (u *userHandler) LoginUser(ctx *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //	@Param			user	body		dto.UpdateUserRequest	true	"Update a user request body"
-//	@Param			id		path		uint					true	"User ID request"
 //	@Success		200		{object}	dto.UpdateUserResponse
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		400		{object}	errs.MessageErrData
-//	@Router			/users/{id} [put]
+//	@Router			/users/ [put]
 func (u *userHandler) UpdateUser(ctx *gin.Context) {
-	// ambil user id dari path variable
-	id, err := strconv.Atoi(ctx.Param("id"))
-	if err != nil {
-		idError := errs.NewBadRequest("Invalid ID format")
-		ctx.JSON(idError.StatusCode(), idError)
-		return
-	}
+	// mustget = ambil data dari middleware authentication.
+	// Tp hasil returnnya hanya empty interface, jadi harus
+	// di cast dulu ke jwt.MapClaims.
+	userData := ctx.MustGet("userData").(jwt.MapClaims)
+	userId := uint(userData["id"].(float64))
 
 	var requestBody dto.UpdateUserRequest
 
-	err = ctx.ShouldBindJSON(&requestBody)
+	err := ctx.ShouldBindJSON(&requestBody)
 	if err != nil {
 		newError := errs.NewUnprocessableEntity(err.Error())
 		ctx.JSON(newError.StatusCode(), newError)
@@ -132,7 +128,7 @@ func (u *userHandler) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
-	updatedUserResponse, err3 := u.userService.UpdateUser(id, &requestBody)
+	updatedUserResponse, err3 := u.userService.UpdateUser(userId, &requestBody)
 
 	if err3 != nil {
 		ctx.JSON(err3.StatusCode(), err3)
