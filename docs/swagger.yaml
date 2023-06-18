@@ -1,3 +1,4 @@
+basePath: /
 definitions:
   dto.AllSocialMediasResponse:
     properties:
@@ -339,8 +340,14 @@ definitions:
         example: 400
         type: integer
     type: object
+host: localhost:8080
 info:
-  contact: {}
+  contact:
+    name: Swagger API Team
+  description: This is a server for MyGram Application.
+  termsOfService: http://swagger.io/terms/
+  title: MyGram API
+  version: "1.0"
 paths:
   /:
     get:
@@ -757,7 +764,6 @@ paths:
       summary: Delete a user
       tags:
       - users
-  /users/{id}:
     put:
       consumes:
       - application/json
@@ -769,11 +775,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/dto.UpdateUserRequest'
-      - description: User ID request
-        in: path
-        name: id
-        required: true
-        type: integer
       produces:
       - application/json
       responses:
