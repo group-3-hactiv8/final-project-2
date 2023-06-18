@@ -20,12 +20,11 @@ func NewPhotoHandler(photoService services.PhotoService) *photoHandler {
 	return &photoHandler{photoService: photoService}
 }
 
-
 // CreatePhoto godoc
 //
 //	@Summary		Create a photo
 //	@Description	Create a photo by json
-//	@Tags			photo
+//	@Tags			photos
 //	@Accept			json
 //	@Produce		json
 //	@Param			comment	body		dto.CreatePhotoRequest	true	"Create a photo request body"
@@ -33,7 +32,7 @@ func NewPhotoHandler(photoService services.PhotoService) *photoHandler {
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		500		{object}	errs.MessageErrData
-//	@Router			/photo [post]
+//	@Router			/photos [post]
 func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
 	// userData, ok := ctx.MustGet("userData").(*models.User)
 	userData := ctx.MustGet("userData").(jwt.MapClaims)
@@ -60,8 +59,6 @@ func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, createdPhoto)
 }
 
-
-
 // GetAllComment godoc
 //
 //	@Summary		Get all photos
@@ -73,7 +70,6 @@ func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
 //	@Failure		500		{object}	errs.MessageErrData
 //	@Router			/ [get]
 func (p *photoHandler) GetAllPhotos(ctx *gin.Context) {
-
 
 	photos, err := p.photoService.GetAllPhotos()
 	if err != nil {
@@ -126,17 +122,14 @@ func (p *photoHandler) UpdatePhoto(ctx *gin.Context) {
 // DeletePhoto godoc
 // @Summary Delete a photo
 // @Description Delete a specific photo by ID
-// @Tags Photos
+// @Tags photos
 // @Param photoID path int true "Photo ID"
 // @Produce json
-// @Success 200 {object} DeletePhotoResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Success 200 {object} dto.DeletePhotoResponse
+// @Failure 400 {object} errs.MessageErrData
+// @Failure 404 {object} errs.MessageErrData
+// @Failure 500 {object} errs.MessageErrData
 // @Router /photos/{photoID} [delete]
-
-
-
 func (p *photoHandler) DeletePhoto(ctx *gin.Context) {
 	photoID := ctx.Param("photoID")
 	photoIDUint, err := strconv.ParseUint(photoID, 10, 32)

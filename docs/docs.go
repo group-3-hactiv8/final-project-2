@@ -10,7 +10,10 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Swagger API Team"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -328,7 +331,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/photo": {
+        "/photos": {
             "post": {
                 "description": "Create a photo by json",
                 "consumes": [
@@ -338,7 +341,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "photo"
+                    "photos"
                 ],
                 "summary": "Create a photo",
                 "parameters": [
@@ -367,6 +370,53 @@ const docTemplate = `{
                     },
                     "422": {
                         "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    }
+                }
+            }
+        },
+        "/photos/{photoID}": {
+            "delete": {
+                "description": "Delete a specific photo by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "photos"
+                ],
+                "summary": "Delete a photo",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Photo ID",
+                        "name": "photoID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DeletePhotoResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/errs.MessageErrData"
                         }
@@ -858,6 +908,15 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.DeletePhotoResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "description": "Message indicating whether or not the photo was deleted",
+                    "type": "string"
+                }
+            }
+        },
         "dto.DeleteSocialMediaResponse": {
             "type": "object",
             "properties": {
@@ -1306,16 +1365,14 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
+	Version:          "1.0",
+	Host:             "https://final-project-2-production-1503.up.railway.app",
+	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "MyGram API",
+	Description:      "This is a server for MyGram Application.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
-	LeftDelim:        "{{",
-	RightDelim:       "}}",
 }
 
 func init() {
