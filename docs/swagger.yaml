@@ -1,4 +1,3 @@
-basePath: /
 definitions:
   dto.AllSocialMediasResponse:
     properties:
@@ -340,14 +339,8 @@ definitions:
         example: 400
         type: integer
     type: object
-host: localhost:8080
 info:
-  contact:
-    name: Swagger API Team
-  description: This is a server for MyGram Application.
-  termsOfService: http://swagger.io/terms/
-  title: MyGram API
-  version: "1.0"
+  contact: {}
 paths:
   /:
     get:
