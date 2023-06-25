@@ -16,38 +16,6 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/": {
-            "get": {
-                "description": "Get all photos by json",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "photos"
-                ],
-                "summary": "Get all photos",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.GetAllPhotosResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/errs.MessageErrData"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/errs.MessageErrData"
-                        }
-                    }
-                }
-            }
-        },
         "/comment": {
             "get": {
                 "description": "View all comment by json",
@@ -328,7 +296,37 @@ const docTemplate = `{
                 }
             }
         },
-        "/photo": {
+        "/photos": {
+            "get": {
+                "description": "Get all photos by json",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "photos"
+                ],
+                "summary": "Get all photos",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.GetAllPhotosResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Create a photo by json",
                 "consumes": [
@@ -338,13 +336,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "photo"
+                    "photos"
                 ],
                 "summary": "Create a photo",
                 "parameters": [
                     {
                         "description": "Create a photo request body",
-                        "name": "comment",
+                        "name": "photos",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -380,6 +378,53 @@ const docTemplate = `{
                 }
             }
         },
+        "/photos/{photoID}": {
+            "delete": {
+                "description": "Delete a specific photo by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "photos"
+                ],
+                "summary": "Delete a photo",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Photo ID",
+                        "name": "photoID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DeletePhotoResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    }
+                }
+            }
+        },
         "/photos/{photosId}": {
             "put": {
                 "description": "Update a Photo by json",
@@ -396,7 +441,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "Update a photos request body",
-                        "name": "photo",
+                        "name": "photos",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -406,7 +451,7 @@ const docTemplate = `{
                     {
                         "type": "integer",
                         "description": "photos ID request",
-                        "name": "commentId",
+                        "name": "photoID",
                         "in": "path",
                         "required": true
                     }
@@ -619,7 +664,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/": {
+        "/users": {
             "put": {
                 "description": "Update a user by json",
                 "consumes": [
@@ -854,6 +899,15 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.DeletePhotoResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "description": "Message indicating whether or not the photo was deleted",
                     "type": "string"
                 }
             }

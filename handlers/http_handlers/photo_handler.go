@@ -25,15 +25,15 @@ func NewPhotoHandler(photoService services.PhotoService) *photoHandler {
 //
 //	@Summary		Create a photo
 //	@Description	Create a photo by json
-//	@Tags			photo
+//	@Tags			photos
 //	@Accept			json
 //	@Produce		json
-//	@Param			comment	body		dto.CreatePhotoRequest	true	"Create a photo request body"
+//	@Param			photos	body		dto.CreatePhotoRequest	true	"Create a photo request body"
 //	@Success		201		{object}	dto.CreatePhotoResponse
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		500		{object}	errs.MessageErrData
-//	@Router			/photo [post]
+//	@Router			/photos [post]
 func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
 	// userData, ok := ctx.MustGet("userData").(*models.User)
 	userData := ctx.MustGet("userData").(jwt.MapClaims)
@@ -62,7 +62,7 @@ func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
 
 
 
-// GetAllComment godoc
+// GetAllPhotos godoc
 //
 //	@Summary		Get all photos
 //	@Description	Get all photos by json
@@ -71,7 +71,7 @@ func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
 //	@Success		200		{object}	dto.GetAllPhotosResponse
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		500		{object}	errs.MessageErrData
-//	@Router			/ [get]
+//	@Router			/photos [get]
 func (p *photoHandler) GetAllPhotos(ctx *gin.Context) {
 
 
@@ -91,8 +91,8 @@ func (p *photoHandler) GetAllPhotos(ctx *gin.Context) {
 //	@Tags			photos
 //	@Accept			json
 //	@Produce		json
-//	@Param			photo	body		dto.UpdatePhotoRequest	true	"Update a photos request body"
-//	@Param			commentId		path		uint					true	"photos ID request"
+//	@Param			photos	body		dto.UpdatePhotoRequest	true	"Update a photos request body"
+//	@Param			photoID		path		uint					true	"photos ID request"
 //	@Success		200		{object}	dto.UpdatePhotoResponse
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
@@ -124,19 +124,16 @@ func (p *photoHandler) UpdatePhoto(ctx *gin.Context) {
 }
 
 // DeletePhoto godoc
-// @Summary Delete a photo
+// @Summary 	Delete a photo
 // @Description Delete a specific photo by ID
-// @Tags Photos
-// @Param photoID path int true "Photo ID"
-// @Produce json
-// @Success 200 {object} DeletePhotoResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 404 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
-// @Router /photos/{photoID} [delete]
-
-
-
+// @Tags 		photos
+// @Param 		photoID path int true "Photo ID"
+// @Produce 	json
+// @Success 	200 	{object} 	dto.DeletePhotoResponse
+// @Failure 	400 	{object} 	errs.MessageErrData
+// @Failure 	404 	{object} 	errs.MessageErrData
+// @Failure 	500 	{object} 	errs.MessageErrData
+// @Router 		/photos/{photoID} [delete]
 func (p *photoHandler) DeletePhoto(ctx *gin.Context) {
 	photoID := ctx.Param("photoID")
 	photoIDUint, err := strconv.ParseUint(photoID, 10, 32)

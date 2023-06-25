@@ -47,6 +47,12 @@ definitions:
       message:
         type: string
     type: object
+  dto.DeletePhotoResponse:
+    properties:
+      message:
+        description: Message indicating whether or not the photo was deleted
+        type: string
+    type: object
   dto.DeleteSocialMediaResponse:
     properties:
       message:
@@ -342,27 +348,6 @@ definitions:
 info:
   contact: {}
 paths:
-  /:
-    get:
-      description: Get all photos by json
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.GetAllPhotosResponse'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/errs.MessageErrData'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/errs.MessageErrData'
-      summary: Get all photos
-      tags:
-      - photos
   /comment:
     get:
       description: View all comment by json
@@ -548,7 +533,27 @@ paths:
       summary: View all comments of a user
       tags:
       - comment
-  /photo:
+  /photos:
+    get:
+      description: Get all photos by json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetAllPhotosResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Get all photos
+      tags:
+      - photos
     post:
       consumes:
       - application/json
@@ -556,7 +561,7 @@ paths:
       parameters:
       - description: Create a photo request body
         in: body
-        name: comment
+        name: photos
         required: true
         schema:
           $ref: '#/definitions/dto.CreatePhotoRequest'
@@ -581,7 +586,38 @@ paths:
             $ref: '#/definitions/errs.MessageErrData'
       summary: Create a photo
       tags:
-      - photo
+      - photos
+  /photos/{photoID}:
+    delete:
+      description: Delete a specific photo by ID
+      parameters:
+      - description: Photo ID
+        in: path
+        name: photoID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.DeletePhotoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Delete a photo
+      tags:
+      - photos
   /photos/{photosId}:
     put:
       consumes:
@@ -590,13 +626,13 @@ paths:
       parameters:
       - description: Update a photos request body
         in: body
-        name: photo
+        name: photos
         required: true
         schema:
           $ref: '#/definitions/dto.UpdatePhotoRequest'
       - description: photos ID request
         in: path
-        name: commentId
+        name: photoID
         required: true
         type: integer
       produces:
@@ -740,7 +776,7 @@ paths:
       summary: Update a Social Media
       tags:
       - socialmedias
-  /users/:
+  /users:
     delete:
       description: Delete a user by JWT from header
       produces:

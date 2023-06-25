@@ -105,7 +105,7 @@ func (u *userHandler) LoginUser(ctx *gin.Context) {
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		400		{object}	errs.MessageErrData
-//	@Router			/users/ [put]
+//	@Router			/users [put]
 func (u *userHandler) UpdateUser(ctx *gin.Context) {
 	// mustget = ambil data dari middleware authentication.
 	// Tp hasil returnnya hanya empty interface, jadi harus
@@ -147,7 +147,7 @@ func (u *userHandler) UpdateUser(ctx *gin.Context) {
 //	@Produce		json
 //	@Success		200		{object}	dto.DeleteUserResponse
 //	@Failure		401		{object}	errs.MessageErrData
-//	@Router			/users/ [delete]
+//	@Router			/users [delete]
 func (u *userHandler) DeleteUser(ctx *gin.Context) {
 	// mustget = ambil data dari middleware authentication.
 	// Tp hasil returnnya hanya empty interface, jadi harus
