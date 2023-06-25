@@ -20,7 +20,6 @@ func NewPhotoHandler(photoService services.PhotoService) *photoHandler {
 	return &photoHandler{photoService: photoService}
 }
 
-
 // CreatePhoto godoc
 //
 //	@Summary		Create a photo
@@ -61,7 +60,6 @@ func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
 }
 
 
-
 // GetAllPhotos godoc
 //
 //	@Summary		Get all photos
@@ -73,7 +71,6 @@ func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
 //	@Failure		500		{object}	errs.MessageErrData
 //	@Router			/photos [get]
 func (p *photoHandler) GetAllPhotos(ctx *gin.Context) {
-
 
 	photos, err := p.photoService.GetAllPhotos()
 	if err != nil {

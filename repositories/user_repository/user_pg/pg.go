@@ -32,6 +32,19 @@ func (u *userPG) GetUserByID(user *models.User) errs.MessageErr {
 	return nil
 }
 
+func (u *userPG) GetUserByEmail(user *models.User) errs.MessageErr {
+	err := u.db.Where("email = ?", user.Email).Take(&user).Error
+	// Karna di Take, objek user akan terupdate, termasuk passwordnya.
+	// Makannya kita simpen dulu password dari request nya di service level.
+
+	if err != nil {
+		err2 := errs.NewBadRequest("Wrong email/password")
+		return err2
+	}
+
+	return nil
+}
+
 func (u *userPG) RegisterUser(newUser *models.User) (*models.User, errs.MessageErr) {
 	if err := u.db.Create(newUser).Error; err != nil {
 		log.Println(err.Error())
