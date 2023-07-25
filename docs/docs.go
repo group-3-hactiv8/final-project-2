@@ -26,6 +26,16 @@ const docTemplate = `{
                     "comment"
                 ],
                 "summary": "View all comment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -68,6 +78,14 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/dto.NewCommentRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -118,6 +136,14 @@ const docTemplate = `{
                         "name": "photoId",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -167,6 +193,14 @@ const docTemplate = `{
                         "description": "user ID request",
                         "name": "userId",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -227,6 +261,14 @@ const docTemplate = `{
                         "name": "commentId",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -272,6 +314,14 @@ const docTemplate = `{
                         "name": "commentId",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -306,6 +356,16 @@ const docTemplate = `{
                     "photos"
                 ],
                 "summary": "Get all photos",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -348,6 +408,14 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/dto.CreatePhotoRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -379,6 +447,71 @@ const docTemplate = `{
             }
         },
         "/photos/{photoID}": {
+            "put": {
+                "description": "Update a Photo by json",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "photos"
+                ],
+                "summary": "Update a Photo",
+                "parameters": [
+                    {
+                        "description": "Update a photos request body",
+                        "name": "photos",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdatePhotoRequest"
+                        }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "photos ID request",
+                        "name": "photoID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdatePhotoResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/errs.MessageErrData"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "Delete a specific photo by ID",
                 "produces": [
@@ -394,6 +527,14 @@ const docTemplate = `{
                         "description": "Photo ID",
                         "name": "photoID",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -425,65 +566,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/photos/{photosId}": {
-            "put": {
-                "description": "Update a Photo by json",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "photos"
-                ],
-                "summary": "Update a Photo",
-                "parameters": [
-                    {
-                        "description": "Update a photos request body",
-                        "name": "photos",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.UpdatePhotoRequest"
-                        }
-                    },
-                    {
-                        "type": "integer",
-                        "description": "photos ID request",
-                        "name": "photoID",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.UpdatePhotoResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/errs.MessageErrData"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/errs.MessageErrData"
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "schema": {
-                            "$ref": "#/definitions/errs.MessageErrData"
-                        }
-                    }
-                }
-            }
-        },
         "/socialmedias": {
             "get": {
                 "description": "View all social medias by json",
@@ -494,6 +576,16 @@ const docTemplate = `{
                     "socialmedias"
                 ],
                 "summary": "View all social medias",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -536,6 +628,14 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/dto.NewSocialMediaRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -566,7 +666,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/socialmedias/{id}": {
+        "/socialmedias/{socialMediaId}": {
             "put": {
                 "description": "Update a Social Media by json",
                 "consumes": [
@@ -594,6 +694,14 @@ const docTemplate = `{
                         "description": "Social Media ID request",
                         "name": "socialMediaId",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -639,6 +747,14 @@ const docTemplate = `{
                         "description": "Social Media ID request",
                         "name": "socialMediaId",
                         "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
                         "required": true
                     }
                 ],
@@ -686,6 +802,14 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/dto.UpdateUserRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -724,6 +848,16 @@ const docTemplate = `{
                     "users"
                 ],
                 "summary": "Delete a user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd your access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",

@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"final-project-2/database"
-	_ "final-project-2/docs"
+	// _ "final-project-2/docs"
 	"final-project-2/handlers/http_handlers"
 	"final-project-2/middlewares"
 	"final-project-2/repositories/comment_repository/comment_pg"
@@ -10,6 +10,8 @@ import (
 	"final-project-2/repositories/social_media_repository/social_media_pg"
 	"final-project-2/repositories/user_repository/user_pg"
 	"final-project-2/services"
+	"final-project-2/docs"
+	"os"
 
 	ginSwagger "github.com/swaggo/gin-swagger"
 
@@ -17,14 +19,9 @@ import (
 	swaggerfiles "github.com/swaggo/files"
 )
 
-// @title MyGram API
-// @version 1.0
-// @description This is a server for MyGram Application.
-// @termsOfService http://swagger.io/terms/
-// @contact.name Swagger API Team
-// @host https://final-project-2-production-1503.up.railway.app
-// @BasePath /
-func StartApp() *gin.Engine {
+// const port = ":8080"
+
+func StartApp() {
 	database.StartDB()
 	db := database.GetPostgresInstance()
 
@@ -89,8 +86,18 @@ func StartApp() *gin.Engine {
 		commentRouter.DELETE("/:commentId", middlewares.CommentAuthorization(), commentHandler.DeleteComment)
 	}
 
+
+	docs.SwaggerInfo.Title = "API My Gram"
+	docs.SwaggerInfo.Description = "Ini adalah server API My Gram."
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Host = "final-project-2-production-1503.up.railway.app"
+	docs.SwaggerInfo.Schemes = []string{"https","http"}
+	// docs.SwaggerInfo.Host = "localhost:8080"
+	// docs.SwaggerInfo.Schemes = []string{"http"}
+
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
-	return router
-
+	router.Run(":" + os.Getenv("PORT"))
+	// router.Run()
+	
 }

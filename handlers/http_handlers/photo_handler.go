@@ -29,6 +29,7 @@ func NewPhotoHandler(photoService services.PhotoService) *photoHandler {
 //	@Produce		json
 //	@Param			photos	body		dto.CreatePhotoRequest	true	"Create a photo request body"
 //	@Success		201		{object}	dto.CreatePhotoResponse
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add your access token here>)
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		500		{object}	errs.MessageErrData
@@ -67,6 +68,7 @@ func (p *photoHandler) CreatePhoto(ctx *gin.Context) {
 //	@Tags			photos
 //	@Produce		json
 //	@Success		200		{object}	dto.GetAllPhotosResponse
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add your access token here>)
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		500		{object}	errs.MessageErrData
 //	@Router			/photos [get]
@@ -91,10 +93,11 @@ func (p *photoHandler) GetAllPhotos(ctx *gin.Context) {
 //	@Param			photos	body		dto.UpdatePhotoRequest	true	"Update a photos request body"
 //	@Param			photoID		path		uint					true	"photos ID request"
 //	@Success		200		{object}	dto.UpdatePhotoResponse
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add your access token here>)
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		400		{object}	errs.MessageErrData
-//	@Router			/photos/{photosId} [put]
+//	@Router			/photos/{photoID} [put]
 func (p *photoHandler) UpdatePhoto(ctx *gin.Context) {
 	var requestBody dto.UpdatePhotoRequest
 	if err := ctx.ShouldBindJSON(&requestBody); err != nil {
@@ -127,6 +130,7 @@ func (p *photoHandler) UpdatePhoto(ctx *gin.Context) {
 // @Param 		photoID path int true "Photo ID"
 // @Produce 	json
 // @Success 	200 	{object} 	dto.DeletePhotoResponse
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add your access token here>)
 // @Failure 	400 	{object} 	errs.MessageErrData
 // @Failure 	404 	{object} 	errs.MessageErrData
 // @Failure 	500 	{object} 	errs.MessageErrData

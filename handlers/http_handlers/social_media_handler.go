@@ -28,6 +28,7 @@ func NewSocialMediaHandler(socialMediaService services.SocialMediaService) *soci
 //	@Produce		json
 //	@Param			socialmedia	body		dto.NewSocialMediaRequest	true	"Create a social media request body"
 //	@Success		201		{object}	dto.NewSocialMediaResponse
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add your access token here>)
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		500		{object}	errs.MessageErrData
@@ -71,6 +72,7 @@ func (sm *socialMediaHandler) CreateSocialMedia(ctx *gin.Context) {
 //	@Tags			socialmedias
 //	@Produce		json
 //	@Success		200		{object}	dto.AllSocialMediasResponse
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add your access token here>)
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		500		{object}	errs.MessageErrData
 //	@Router			/socialmedias [get]
@@ -95,10 +97,11 @@ func (sm *socialMediaHandler) GetAllSocialMedias(ctx *gin.Context) {
 //	@Param			socialMedia	body		dto.NewSocialMediaRequest	true	"Update a social media request body"
 //	@Param			socialMediaId		path		uint					true	"Social Media ID request"
 //	@Success		200		{object}	dto.UpdateSocialMediaResponse
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add your access token here>)
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		400		{object}	errs.MessageErrData
-//	@Router			/socialmedias/{id} [put]
+//	@Router			/socialmedias/{socialMediaId} [put]
 func (sm *socialMediaHandler) UpdateSocialMedia(ctx *gin.Context) {
 	// ambil socialmedia id dari path variable
 	id, err := strconv.Atoi(ctx.Param("socialMediaId"))
@@ -141,9 +144,10 @@ func (sm *socialMediaHandler) UpdateSocialMedia(ctx *gin.Context) {
 //	@Produce		json
 //	@Param			socialMediaId		path		uint					true	"Social Media ID request"
 //	@Success		200		{object}	dto.DeleteSocialMediaResponse
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add your access token here>)
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		400		{object}	errs.MessageErrData
-//	@Router			/socialmedias/{id} [delete]
+//	@Router			/socialmedias/{socialMediaId} [delete]
 func (sm *socialMediaHandler) DeleteSocialMedia(ctx *gin.Context) {
 	// ambil socialmedia id dari path variable
 	id, err := strconv.Atoi(ctx.Param("socialMediaId"))
