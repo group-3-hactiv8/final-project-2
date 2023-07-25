@@ -73,10 +73,12 @@ func (p *photoService) GetAllPhotos() ([]dto.GetAllPhotosResponse, errs.MessageE
 	response := []dto.GetAllPhotosResponse{}
 	for _, photo := range photos {
 		// Get the associated user information for each photo.
-		//_, err := p.userRepo.Get
-		//if err != nil {
-		//	return nil, err
-		//}
+		user := &models.User{}
+		user.ID = photo.UserId
+		err := p.userRepo.GetUserByID(user)
+		if err != nil {
+			return nil, err
+		}
 
 		// Convert the photo to a DTO response and append it to the response array.
 		response = append(response, dto.GetAllPhotosResponse{
@@ -84,9 +86,13 @@ func (p *photoService) GetAllPhotos() ([]dto.GetAllPhotosResponse, errs.MessageE
 			Title:     photo.Title,
 			Caption:   photo.Caption,
 			PhotoURL:  photo.PhotoURL,
-			UserID:    uint(photo.UserId),
+			UserID:    user.ID,
 			CreatedAt: photo.CreatedAt,
 			UpdatedAt: photo.UpdatedAt,
+			User: dto.UserData{
+				Email:    user.Email,
+				Username: user.Username,
+			},
 		})
 	}
 
