@@ -7,8 +7,8 @@ import (
 
 // CreatePhotoRequest defines the request body for creating a photo.
 type CreatePhotoRequest struct {
-	Title    string `json:"title" binding:"required"`         // Title of the photo - mandatory field
-	Caption  string `json:"caption"`                          // Caption of the photo - optional field
+	Title    string `json:"title" binding:"required"`     // Title of the photo - mandatory field
+	Caption  string `json:"caption"`                      // Caption of the photo - optional field
 	PhotoURL string `json:"photo_url" binding:"required"` // Photo URL is a mandatory and must be valid URL
 }
 
@@ -41,7 +41,6 @@ type GetAllPhotosResponse struct {
 	CreatedAt time.Time `json:"created_at"` // Time at which photo was created
 	UpdatedAt time.Time `json:"updated_at"` // Time at which photo was updated
 	User      UserData  `json:"user"`       // User related data
-	Email     UserData  `json:"email"`      // Email address related to user data
 }
 
 // UserData defines the user-related information used in various responses.

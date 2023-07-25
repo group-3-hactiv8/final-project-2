@@ -351,6 +351,13 @@ paths:
   /comment:
     get:
       description: View all comment by json
+      parameters:
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -380,6 +387,12 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/dto.NewCommentRequest'
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -411,6 +424,12 @@ paths:
         name: commentId
         required: true
         type: integer
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -445,6 +464,12 @@ paths:
         name: commentId
         required: true
         type: integer
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -478,6 +503,12 @@ paths:
         name: photoId
         required: true
         type: integer
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -511,6 +542,12 @@ paths:
         name: userId
         required: true
         type: integer
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -536,6 +573,13 @@ paths:
   /photos:
     get:
       description: Get all photos by json
+      parameters:
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -565,6 +609,12 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/dto.CreatePhotoRequest'
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -596,6 +646,12 @@ paths:
         name: photoID
         required: true
         type: integer
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -618,7 +674,6 @@ paths:
       summary: Delete a photo
       tags:
       - photos
-  /photos/{photosId}:
     put:
       consumes:
       - application/json
@@ -635,6 +690,12 @@ paths:
         name: photoID
         required: true
         type: integer
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -660,6 +721,13 @@ paths:
   /socialmedias:
     get:
       description: View all social medias by json
+      parameters:
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -689,6 +757,12 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/dto.NewSocialMediaRequest'
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -711,7 +785,7 @@ paths:
       summary: Create a social media
       tags:
       - socialmedias
-  /socialmedias/{id}:
+  /socialmedias/{socialMediaId}:
     delete:
       description: Delete a Social Media by param
       parameters:
@@ -720,6 +794,12 @@ paths:
         name: socialMediaId
         required: true
         type: integer
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -754,6 +834,12 @@ paths:
         name: socialMediaId
         required: true
         type: integer
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -779,6 +865,13 @@ paths:
   /users:
     delete:
       description: Delete a user by JWT from header
+      parameters:
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -804,6 +897,12 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/dto.UpdateUserRequest'
+      - default: Bearer <Add your access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:

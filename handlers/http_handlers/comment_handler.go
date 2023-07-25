@@ -29,6 +29,7 @@ func NewCommentHandler(commentService services.CommentService) *commentHandler {
 //	@Produce		json
 //	@Param			comment	body		dto.NewCommentRequest	true	"Create a comment request body"
 //	@Success		201		{object}	dto.NewCommentResponse
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add your access token here>)
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		500		{object}	errs.MessageErrData
@@ -67,6 +68,7 @@ func (c *commentHandler) CreateComment(ctx *gin.Context) {
 //	@Produce		json
 //	@Param			userId		path		uint					true	"user ID request"
 //	@Success		200		{object}	dto.GetAllCommentResponse
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add your access token here>)
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		400		{object}	errs.MessageErrData
@@ -99,6 +101,7 @@ func (c *commentHandler) GetCommentByUserId(ctx *gin.Context) {
 //	@Produce		json
 //	@Param			photoId		path		uint					true	"photo  ID request"
 //	@Success		200		{object}	dto.GetAllCommentResponse
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add your access token here>)
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		400		{object}	errs.MessageErrData
@@ -135,6 +138,7 @@ func (c *commentHandler) GetCommentByPhotoId(ctx *gin.Context) {
 //	@Tags			comment
 //	@Produce		json
 //	@Success		200		{object}	dto.GetAllCommentResponse
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add your access token here>)
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		500		{object}	errs.MessageErrData
 //	@Router			/comment [get]
@@ -165,6 +169,7 @@ func (c *commentHandler) GetAllComment(ctx *gin.Context) {
 //	@Param			comment	body		dto.UpdateCommentRequest	true	"Update a comment request body"
 //	@Param			commentId		path		uint					true	"comment ID request"
 //	@Success		200		{object}	dto.UpdateCommentResponse
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add your access token here>)
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		422		{object}	errs.MessageErrData
 //	@Failure		400		{object}	errs.MessageErrData
@@ -209,6 +214,7 @@ func (c *commentHandler) UpdateComment(ctx *gin.Context) {
 //	@Produce		json
 //	@Param			commentId		path		uint					true	"comment ID request"
 //	@Success		200		{object}	dto.DeleteCommentResponse
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add your access token here>)
 //	@Failure		401		{object}	errs.MessageErrData
 //	@Failure		400		{object}	errs.MessageErrData
 //	@Router			/comment/{commentId} [delete]

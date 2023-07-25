@@ -1,9 +1,6 @@
 package models
 
 import (
-	"final-project-2/pkg/errs"
-
-	"github.com/asaskevich/govalidator"
 	"gorm.io/gorm"
 )
 
@@ -16,11 +13,3 @@ type SocialMedia struct {
 	User           User
 }
 
-func (sc *SocialMedia) BeforeCreate(tx *gorm.DB) error {
-	_, err := govalidator.ValidateStruct(sc)
-
-	if err != nil {
-		return errs.NewUnprocessableEntity(err.Error())
-	}
-	return nil
-}
